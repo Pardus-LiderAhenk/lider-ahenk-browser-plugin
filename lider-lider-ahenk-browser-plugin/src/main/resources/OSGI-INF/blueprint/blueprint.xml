@@ -1,0 +1,19 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
+  <service 
+      ref="${command}"
+      interface="tr.org.liderahenk.lider.core.api.plugin.ICommand" />
+  <bean id="${command}" 
+        class="${package}.commands.${command}">
+        <property name="pluginDbService" ref="pluginDbService"/>
+        <property name="logService" ref="logService"/>
+        <property name="resultFactory" ref="resultFactory"/>
+  </bean>
+  
+  <reference id="pluginDbService" interface="tr.org.liderahenk.lider.core.api.plugin.IPluginDbService" />
+  <reference id="logService" interface="tr.org.liderahenk.lider.core.api.log.IOperationLogService" />
+  <reference id="resultFactory" interface="tr.org.liderahenk.lider.core.api.plugin.ICommandResultFactory"/>
+</blueprint>

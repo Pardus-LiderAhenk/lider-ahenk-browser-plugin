@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            id="tr.org.liderahenk.liderconsole.commands.category"
+            name="%commands.category">
+      </category>         
+      <command
+            categoryId="tr.org.liderahenk.liderconsole.commands.category"
+            id="tr.org.liderahenk.liderconsole.commands.SampleProfile"            
+            name="%profile.command">
+      </command>
+   </extension>
+   
+   <extension
+       point="org.eclipse.ui.handlers">      
+       <handler
+            class="tr.org.liderahenk.browser.plugin.handlers.SampleProfileHandler"
+            commandId="tr.org.liderahenk.liderconsole.commands.SampleProfile">
+		   <enabledWhen>
+				<and>
+		          <with
+		                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.available">
+		             <equals
+		                   value="true">
+		             </equals>
+		          </with>
+				<with
+	                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.isAhenkSelected">
+	             	<equals
+		                   value="true">
+		            </equals>
+	          	</with>
+		       </and>
+		    </enabledWhen>        
+      </handler>
+  </extension>
+  
+  <extension
+         point="org.eclipse.ui.menus">
+     <menuContribution
+      		allPopups="false"
+            locationURI="popup:tr.org.liderahenk.liderconsole.menus.LiderPopup?after=additions">
+ 				<command
+                  commandId="tr.org.liderahenk.liderconsole.commands.RemoteAccess"
+                  id="tr.org.liderahenk.liderconsole.commands.RemoteAccessCommand"
+                  icon="icons/sample.png"
+                  tooltip="%remote.access.command">
+				   <visibleWhen>
+					   <and>
+			                <iterate operator="or">		
+			                	<or>
+							  	<with
+					                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.isSearchSelected">
+						             <equals
+						                   value="true">
+						             </equals>
+					          	</with>
+					          	<with
+					                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.isEntrySelected">
+						             <equals
+						                   value="true">
+						             </equals>
+					          	</with>
+					        	</or>
+					        </iterate>
+							<with
+				                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.isAhenkSelected">
+				             	<equals
+					                   value="true">
+					            </equals>
+				          	</with>
+					    </and>
+					</visibleWhen>               
+           		</command>
+      </menuContribution>
+         
+  </extension>
+  
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="tr.org.liderahenk.browser.plugin.editors.SampleProfileEditor"
+            icon="icons/sample.png"
+            id="tr.org.liderahenk.browser.plugin.editors.SampleProfileEditor"
+            name="%editor.name">
+      </editor> 
+   </extension> 
+
+</plugin>
