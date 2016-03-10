@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-SymbolicName: lider-console-lider-ahenk-browser-plugin;singleton:=true
+Bundle-SymbolicName: lider-console-browser;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: javax.inject;bundle-version="1.0.0",
@@ -27,4 +27,4 @@ Require-Bundle: javax.inject;bundle-version="1.0.0",
  org.slf4j.api,
  tr.org.liderahenk.liderconsole.core
 Bundle-Vendor: Agem Bilişim
-Bundle-Name: Lider Ahenk lider-console-lider-ahenk-browser-plugin
+Bundle-Name: Lider Ahenk lider-console-browser

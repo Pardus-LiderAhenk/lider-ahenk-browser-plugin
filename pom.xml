@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>tr.org.liderahenk</groupId>
-	<artifactId>lider-ahenk-browser-plugin</artifactId>
+	<artifactId>browser</artifactId>
 	<version>1.0.0</version>
 	<packaging>pom</packaging>
 
@@ -43,9 +43,9 @@
 	</licenses>
 
 	<modules>
-		<module>lider-lider-ahenk-browser-plugin</module>
-		<module>lider-console-lider-ahenk-browser-plugin</module>
-		<module>ahenk-lider-ahenk-browser-plugin</module>
+		<module>lider-browser</module>
+		<module>lider-console-browser</module>
+		<module>ahenk-browser</module>
 	</modules>
 
 	<build>
