@@ -1,11 +1,11 @@
-package tr.org.liderahenk.browser.plugin.i18n;
+package tr.org.liderahenk.browser.i18n;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 public class Messages {
 	
-	private static final String BUNDLE_NAME = "tr.org.liderahenk.browser.plugin.i18n.messages"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME = "tr.org.liderahenk.browser.i18n.messages"; //$NON-NLS-1$
 
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle
 			.getBundle(BUNDLE_NAME);

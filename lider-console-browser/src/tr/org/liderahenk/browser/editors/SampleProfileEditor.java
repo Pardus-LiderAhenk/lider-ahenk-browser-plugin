@@ -1,4 +1,4 @@
-package tr.org.liderahenk.browser.plugin.editors;
+package tr.org.liderahenk.browser.editors;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.widgets.Composite;

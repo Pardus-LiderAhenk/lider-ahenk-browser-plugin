@@ -18,7 +18,7 @@
    <extension
        point="org.eclipse.ui.handlers">      
        <handler
-            class="tr.org.liderahenk.browser.plugin.handlers.SampleProfileHandler"
+            class="tr.org.liderahenk.browser.handlers.SampleProfileHandler"
             commandId="tr.org.liderahenk.liderconsole.commands.SampleProfile">
 		   <enabledWhen>
 				<and>
@@ -83,9 +83,9 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="tr.org.liderahenk.browser.plugin.editors.SampleProfileEditor"
+            class="tr.org.liderahenk.browser.editors.SampleProfileEditor"
             icon="icons/sample.png"
-            id="tr.org.liderahenk.browser.plugin.editors.SampleProfileEditor"
+            id="tr.org.liderahenk.browser.editors.SampleProfileEditor"
             name="%editor.name">
       </editor> 
    </extension> 

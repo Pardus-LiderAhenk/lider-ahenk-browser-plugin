@@ -1,4 +1,4 @@
-package tr.org.liderahenk.browser.plugin.handlers;
+package tr.org.liderahenk.browser.handlers;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tr.org.liderahenk.liderconsole.core.ui.GenericEditorInput;
-import tr.org.liderahenk.browser.plugin.i18n.Messages;
+import tr.org.liderahenk.browser.i18n.Messages;
 
 public class SampleProfileHandler extends AbstractHandler {
 
@@ -24,7 +24,7 @@ public class SampleProfileHandler extends AbstractHandler {
         IWorkbenchPage page = window.getActivePage();
         
         try {
-			page.openEditor(new GenericEditorInput("", Messages.getString("PROFILE_EDITOR")), "tr.org.liderahenk.browser.plugin.editors.SampleProfileEditor");
+			page.openEditor(new GenericEditorInput("", Messages.getString("PROFILE_EDITOR")), "tr.org.liderahenk.browser.editors.SampleProfileEditor");
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
