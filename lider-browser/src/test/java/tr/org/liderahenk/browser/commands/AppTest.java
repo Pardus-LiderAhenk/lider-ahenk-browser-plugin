@@ -1,4 +1,4 @@
-package tr.org.liderahenk.browser.plugin.commands;
+package tr.org.liderahenk.browser.commands;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

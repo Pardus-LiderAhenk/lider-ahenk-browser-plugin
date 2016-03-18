@@ -48,6 +48,7 @@
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
+						<_removeheaders>Import-Service,Export-Service</_removeheaders>
 						<Bundle-SymbolicName>lider-browser</Bundle-SymbolicName>
 						<Bundle-Version>1.0.0</Bundle-Version>
 					</instructions>
