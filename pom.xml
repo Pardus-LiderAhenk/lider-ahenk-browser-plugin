@@ -44,6 +44,7 @@
 
 	<modules>
 		<module>lider-browser</module>
+		<module>lider-browser-feature</module>
 		<module>lider-console-browser</module>
 		<module>ahenk-browser</module>
 	</modules>
