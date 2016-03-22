@@ -1,14 +1,8 @@
 package tr.org.liderahenk.browser.util;
 
-import java.io.IOException;
 import java.util.Set;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
-
+import tr.org.liderahenk.browser.constants.BrowserConstants;
 import tr.org.liderahenk.browser.model.BrowserPreference;
 import tr.org.liderahenk.liderconsole.core.model.Profile;
 
@@ -24,17 +18,11 @@ public class BrowserUtil {
 	 * 
 	 * @param profile
 	 * @return
-	 * @throws JsonParseException
-	 * @throws JsonMappingException
-	 * @throws IOException
 	 */
-	public static Set<BrowserPreference> getPreferences(Profile profile)
-			throws JsonParseException, JsonMappingException, IOException {
+	@SuppressWarnings("unchecked")
+	public static Set<BrowserPreference> getPreferences(Profile profile) {
 		if (profile != null && profile.getProfileData() != null) {
-			Set<BrowserPreference> preferences = new ObjectMapper().readValue(profile.getProfileData(), 0,
-					profile.getProfileData().length, new TypeReference<Set<BrowserPreference>>() {
-					});
-			return preferences;
+			return (Set<BrowserPreference>) profile.getProfileData().get(BrowserConstants.PREFERENCES_MAP_KEY);
 		}
 		return null;
 	}
@@ -52,27 +40,6 @@ public class BrowserUtil {
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * Set specified preferences with values in the provided profile
-	 * 
-	 * @param profile
-	 * @param preferenceName
-	 * @param value
-	 * @throws IOException
-	 * @throws JsonMappingException
-	 * @throws JsonGenerationException
-	 */
-	public static void setPreferences(Profile profile, Set<BrowserPreference> preferences)
-			throws JsonGenerationException, JsonMappingException, IOException {
-		if (profile != null) {
-			Set<BrowserPreference> existingPreferences = getPreferences(profile);
-			if (existingPreferences.addAll(preferences)) {
-				byte[] profileData = new ObjectMapper().writeValueAsBytes(existingPreferences);
-				profile.setProfileData(profileData);
-			}
-		}
 	}
 
 }

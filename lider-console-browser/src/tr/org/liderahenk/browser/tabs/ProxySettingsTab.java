@@ -1,6 +1,6 @@
 package tr.org.liderahenk.browser.tabs;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.swt.SWT;
@@ -47,7 +47,7 @@ public class ProxySettingsTab implements ISettingsTab {
 	private final Integer[] proxyTypeValueArr = new Integer[] { 0, 1, 2, 3, 4 };
 
 	@Override
-	public void createInputs(Composite tabComposite, Profile browserProfile) throws Exception {
+	public void createInputs(Composite tabComposite, Profile profile) throws Exception {
 
 		Group group = new Group(tabComposite, SWT.BORDER_DOT);
 		GridData gd = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
@@ -62,7 +62,7 @@ public class ProxySettingsTab implements ISettingsTab {
 		((ScrolledComposite) tabComposite).setExpandHorizontal(true);
 		((ScrolledComposite) tabComposite).setMinSize(480, 580);
 
-		Set<BrowserPreference> preferences = BrowserUtil.getPreferences(browserProfile);
+		Set<BrowserPreference> preferences = BrowserUtil.getPreferences(profile);
 
 		Label lblConfigureProxies = new Label(group, SWT.NONE);
 		lblConfigureProxies.setFont(SWTResourceManager.getFont("Sans", 9, SWT.BOLD));
@@ -264,8 +264,8 @@ public class ProxySettingsTab implements ISettingsTab {
 	}
 
 	@Override
-	public void addValuesToList(Profile profile) throws Exception {
-		Set<BrowserPreference> preferences = new HashSet<BrowserPreference>();
+	public Set<BrowserPreference> getValues() {
+		Set<BrowserPreference> preferences = new LinkedHashSet<BrowserPreference>();
 		preferences.add(new BrowserPreference(PreferenceNames.PROXY_TYPE, getSelectedProxyType()));
 		if (txtHttpProxy.getText() != null && !txtHttpProxy.getText().isEmpty()) {
 			preferences.add(new BrowserPreference(PreferenceNames.HTTP_PROXY, txtHttpProxy.getText()));
@@ -308,7 +308,7 @@ public class ProxySettingsTab implements ISettingsTab {
 		}
 		preferences.add(new BrowserPreference(PreferenceNames.DONT_PROMPT_FOR_AUTH,
 				btnDontPromptForAuth.getSelection() ? "true" : "false"));
-		BrowserUtil.setPreferences(profile, preferences);
+		return preferences;
 	}
 
 	private void handleProxyTypeSelection() {

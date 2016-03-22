@@ -20,7 +20,7 @@ import tr.org.liderahenk.browser.model.BlockSiteURL;
 import tr.org.liderahenk.browser.tabs.BlockSiteSettingsTab;
 import tr.org.liderahenk.liderconsole.core.widgets.Notifier;
 
-public class NewBlockSiteListItemDialog extends TitleAreaDialog {
+public class BlockSiteListItemDialog extends TitleAreaDialog {
 
 	private Text txtURL;
 	private Text txtDescription;
@@ -28,13 +28,13 @@ public class NewBlockSiteListItemDialog extends TitleAreaDialog {
 	private BlockSiteSettingsTab blockSiteTab;
 	private BlockSiteURL url;
 
-	public NewBlockSiteListItemDialog(Shell parentShell, BlockSiteSettingsTab blockSiteTab) {
+	public BlockSiteListItemDialog(Shell parentShell, BlockSiteSettingsTab blockSiteTab) {
 		super(parentShell);
 		this.blockSiteTab = blockSiteTab;
 		this.editMode = false;
 	}
 
-	public NewBlockSiteListItemDialog(Shell parentShell, BlockSiteURL url, BlockSiteSettingsTab blockSiteTab,
+	public BlockSiteListItemDialog(Shell parentShell, BlockSiteURL url, BlockSiteSettingsTab blockSiteTab,
 			boolean editMode) {
 		super(parentShell);
 		this.editMode = editMode;

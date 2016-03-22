@@ -1,6 +1,6 @@
 package tr.org.liderahenk.browser.tabs;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.swt.SWT;
@@ -42,7 +42,7 @@ public class GeneralSettingsTab implements ISettingsTab {
 	private final String[] pageModeValueArr = new String[] { "1", "0", "3" };
 
 	@Override
-	public void createInputs(Composite tabComposite, Profile browserProfile) throws Exception {
+	public void createInputs(Composite tabComposite, Profile profile) throws Exception {
 
 		Group group = new Group(tabComposite, SWT.BORDER_DOT);
 		GridData gd = new GridData(SWT.LEFT, SWT.CENTER, false, false);
@@ -57,7 +57,7 @@ public class GeneralSettingsTab implements ISettingsTab {
 		((ScrolledComposite) tabComposite).setExpandHorizontal(true);
 		((ScrolledComposite) tabComposite).setMinSize(400, 500);
 
-		Set<BrowserPreference> preferences = BrowserUtil.getPreferences(browserProfile);
+		Set<BrowserPreference> preferences = BrowserUtil.getPreferences(profile);
 
 		Label lblStartup = new Label(group, SWT.NONE);
 		lblStartup.setFont(SWTResourceManager.getFont("Sans", 9, SWT.BOLD));
@@ -194,8 +194,8 @@ public class GeneralSettingsTab implements ISettingsTab {
 	}
 
 	@Override
-	public void addValuesToList(Profile profile) throws Exception {
-		Set<BrowserPreference> preferences = new HashSet<BrowserPreference>();
+	public Set<BrowserPreference> getValues() {
+		Set<BrowserPreference> preferences = new LinkedHashSet<BrowserPreference>();
 		preferences.add(new BrowserPreference(PreferenceNames.CHECK_DEFAULT_BROWSER,
 				btnCheckDefaultBrowser.getSelection() ? "true" : "false"));
 		preferences.add(new BrowserPreference(PreferenceNames.PAGE_MODE, getSelectedPageMode()));
@@ -219,7 +219,7 @@ public class GeneralSettingsTab implements ISettingsTab {
 				btnLoadInBackground.getSelection() ? "false" : "true"));
 		preferences.add(new BrowserPreference(PreferenceNames.ENABLE_XP_INSTALL,
 				btnEnableXPInstall.getSelection() ? "false" : "true"));
-		BrowserUtil.setPreferences(profile, preferences);
+		return preferences;
 	}
 
 	private void handleRadioButton() {

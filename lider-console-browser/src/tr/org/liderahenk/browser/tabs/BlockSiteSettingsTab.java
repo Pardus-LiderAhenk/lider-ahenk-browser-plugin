@@ -1,7 +1,7 @@
 package tr.org.liderahenk.browser.tabs;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
-import tr.org.liderahenk.browser.dialogs.NewBlockSiteListItemDialog;
+import tr.org.liderahenk.browser.dialogs.BlockSiteListItemDialog;
 import tr.org.liderahenk.browser.i18n.Messages;
 import tr.org.liderahenk.browser.model.BlockSiteURL;
 import tr.org.liderahenk.browser.model.BrowserPreference;
@@ -62,9 +62,9 @@ public class BlockSiteSettingsTab implements ISettingsTab {
 	private static final String whitelistRadioVal = "whitelistRadio";
 
 	@Override
-	public void createInputs(Composite tabComposite, Profile browserProfile) throws Exception {
+	public void createInputs(Composite tabComposite, Profile profile) throws Exception {
 
-		this.browserProfile = browserProfile;
+		this.browserProfile = profile;
 
 		Group group = new Group(tabComposite, SWT.BORDER_DOT);
 		GridData gd = new GridData(SWT.LEFT, SWT.CENTER, false, false);
@@ -79,7 +79,7 @@ public class BlockSiteSettingsTab implements ISettingsTab {
 		((ScrolledComposite) tabComposite).setExpandHorizontal(true);
 		((ScrolledComposite) tabComposite).setMinSize(400, 500);
 
-		Set<BrowserPreference> preferences = BrowserUtil.getPreferences(browserProfile);
+		Set<BrowserPreference> preferences = BrowserUtil.getPreferences(profile);
 
 		Label lblEnableFunctions = new Label(group, SWT.NONE);
 		lblEnableFunctions.setFont(SWTResourceManager.getFont("Sans", 9, SWT.BOLD));
@@ -159,7 +159,7 @@ public class BlockSiteSettingsTab implements ISettingsTab {
 		btnAddPref.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				NewBlockSiteListItemDialog dialog = new NewBlockSiteListItemDialog(
+				BlockSiteListItemDialog dialog = new BlockSiteListItemDialog(
 						Display.getCurrent().getActiveShell(), getSelf());
 				dialog.create();
 				dialog.open();
@@ -221,7 +221,7 @@ public class BlockSiteSettingsTab implements ISettingsTab {
 		tblVwrUrl.addDoubleClickListener(new IDoubleClickListener() {
 			@Override
 			public void doubleClick(DoubleClickEvent event) {
-				NewBlockSiteListItemDialog dialog = new NewBlockSiteListItemDialog(parentGroup.getShell(),
+				BlockSiteListItemDialog dialog = new BlockSiteListItemDialog(parentGroup.getShell(),
 						getSelectedUrl(), getSelf(), true);
 				dialog.create();
 				dialog.open();
@@ -313,8 +313,8 @@ public class BlockSiteSettingsTab implements ISettingsTab {
 	}
 
 	@Override
-	public void addValuesToList(Profile profile) throws Exception {
-		Set<BrowserPreference> preferences = new HashSet<BrowserPreference>();
+	public Set<BrowserPreference> getValues() {
+		Set<BrowserPreference> preferences = new LinkedHashSet<BrowserPreference>();
 		preferences.add(new BrowserPreference(PreferenceNames.ENABLE_BLOCK_SITE,
 				btnEnableBlockSite.getSelection() ? "true" : "false"));
 		preferences.add(new BrowserPreference(PreferenceNames.ENABLE_WARNING_MESSAGES,
@@ -341,7 +341,7 @@ public class BlockSiteSettingsTab implements ISettingsTab {
 		}
 		preferences.add(new BrowserPreference(PreferenceNames.WHITE_LIST, StringUtils.join(urlPref, separator)));
 		preferences.add(new BrowserPreference(PreferenceNames.WHITE_LIST_DESC, StringUtils.join(descPref, separator)));
-		BrowserUtil.setPreferences(profile, preferences);
+		return preferences;
 	}
 
 	public void addRecordToURLTable(List<BlockSiteURL> list) {

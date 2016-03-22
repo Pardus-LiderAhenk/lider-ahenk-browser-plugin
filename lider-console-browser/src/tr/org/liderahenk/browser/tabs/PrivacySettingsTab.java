@@ -1,6 +1,6 @@
 package tr.org.liderahenk.browser.tabs;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.swt.SWT;
@@ -42,7 +42,7 @@ public class PrivacySettingsTab implements ISettingsTab {
 
 	@Override
 	public void createInputs(Composite tabComposite,
-			Profile browserProfile) throws Exception {
+			Profile profile) throws Exception {
 		
 		Group group = new Group(tabComposite, SWT.BORDER_DOT);
 		GridData gd = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
@@ -58,7 +58,7 @@ public class PrivacySettingsTab implements ISettingsTab {
 		((ScrolledComposite) tabComposite).setExpandHorizontal(true);
 		((ScrolledComposite) tabComposite).setMinSize(400,400);
 		
-		Set<BrowserPreference> preferences = BrowserUtil.getPreferences(browserProfile);
+		Set<BrowserPreference> preferences = BrowserUtil.getPreferences(profile);
 		
 		// Tracking
 		Label lblTracking = new Label(group, SWT.NONE);
@@ -186,8 +186,8 @@ public class PrivacySettingsTab implements ISettingsTab {
 	}
 
 	@Override
-	public void addValuesToList(Profile profile) throws Exception {
-		Set<BrowserPreference> preferences = new HashSet<BrowserPreference>();
+	public Set<BrowserPreference> getValues() {
+		Set<BrowserPreference> preferences = new LinkedHashSet<BrowserPreference>();
 		preferences.add(new BrowserPreference(PreferenceNames.I_DONT_WANT_TO_BE_TRACKED, btnIDontWantToBeTracked.getSelection() ? "true" : "false"));
 		preferences.add(new BrowserPreference(PreferenceNames.REMEMBER_BROWSING_DOWNLOAD_HISTORY, btnRememberBrowsingDownloadHistory.getSelection() ? "true" : "false"));
 		preferences.add(new BrowserPreference(PreferenceNames.REMEMBER_SEARCH_FORM_HISTORY, btnRememberSearchFormHistory.getSelection() ? "true" : "false"));
@@ -197,7 +197,7 @@ public class PrivacySettingsTab implements ISettingsTab {
 		preferences.add(new BrowserPreference(PreferenceNames.SUGGEST_BOOKMARKS, btnSuggestBookmarks.getSelection() ? "true" : "false"));
 		preferences.add(new BrowserPreference(PreferenceNames.SUGGEST_OPEN_TABS, btnSuggestOpenTabs.getSelection() ? "true" : "false"));
 		preferences.add(new BrowserPreference(PreferenceNames.KEEP_COOKIES_UNTIL, getSelectedCookieLifetimePolicy()));
-		BrowserUtil.setPreferences(profile, preferences);
+		return preferences;
 	}
 	
 	private void handleCookieSelection() {
