@@ -10,16 +10,16 @@
       </category>         
       <command
             categoryId="tr.org.liderahenk.liderconsole.commands.category"
-            id="tr.org.liderahenk.liderconsole.commands.SampleProfile"            
-            name="%profile.command">
+            id="tr.org.liderahenk.liderconsole.commands.BrowserProfile"            
+            name="%command.browser.profile">
       </command>
    </extension>
    
    <extension
        point="org.eclipse.ui.handlers">      
        <handler
-            class="tr.org.liderahenk.browser.handlers.SampleProfileHandler"
-            commandId="tr.org.liderahenk.liderconsole.commands.SampleProfile">
+            class="tr.org.liderahenk.browser.handlers.BrowserProfileHandler"
+            commandId="tr.org.liderahenk.liderconsole.commands.BrowserProfile">
 		   <enabledWhen>
 				<and>
 		          <with
@@ -43,12 +43,12 @@
          point="org.eclipse.ui.menus">
      <menuContribution
       		allPopups="false"
-            locationURI="popup:tr.org.liderahenk.liderconsole.menus.LiderPopup?after=additions">
+            locationURI="popup:tr.org.liderahenk.liderconsole.menus.LiderProfilePopup?after=additions">
  				<command
-                  commandId="tr.org.liderahenk.liderconsole.commands.RemoteAccess"
-                  id="tr.org.liderahenk.liderconsole.commands.RemoteAccessCommand"
-                  icon="icons/sample.png"
-                  tooltip="%remote.access.command">
+                  commandId="tr.org.liderahenk.liderconsole.commands.BrowserProfile"
+                  id="tr.org.liderahenk.liderconsole.commands.BrowserProfile"
+                  icon="icons/16/browser.png"
+                  tooltip="%command.browser.profile">
 				   <visibleWhen>
 					   <and>
 			                <iterate operator="or">		
@@ -77,17 +77,6 @@
 					</visibleWhen>               
            		</command>
       </menuContribution>
-         
   </extension>
   
-   <extension
-         point="org.eclipse.ui.editors">
-      <editor
-            class="tr.org.liderahenk.browser.editors.SampleProfileEditor"
-            icon="icons/sample.png"
-            id="tr.org.liderahenk.browser.editors.SampleProfileEditor"
-            name="%editor.name">
-      </editor> 
-   </extension> 
-
 </plugin>
