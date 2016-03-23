@@ -218,7 +218,7 @@ public class BrowserProfileDialog implements IProfileDialog {
 
 		Set<BrowserPreference> temp = BrowserUtil.getPreferences(profile);
 		if (profile != null && temp != null) {
-			LinkedHashSet<BrowserPreference> preferences = new LinkedHashSet<BrowserPreference>();
+			LinkedHashSet<BrowserPreference> preferences = new LinkedHashSet<BrowserPreference>(temp);
 			setPreferenceList(preferences);
 			tableViewer.setInput(preferences);
 		} else {
