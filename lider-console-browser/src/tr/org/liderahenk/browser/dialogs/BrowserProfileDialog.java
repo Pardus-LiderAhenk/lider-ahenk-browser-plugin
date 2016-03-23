@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -23,13 +24,11 @@ import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.slf4j.Logger;
@@ -43,8 +42,10 @@ import tr.org.liderahenk.browser.tabs.GeneralSettingsTab;
 import tr.org.liderahenk.browser.tabs.PrivacySettingsTab;
 import tr.org.liderahenk.browser.tabs.ProxySettingsTab;
 import tr.org.liderahenk.browser.util.BrowserUtil;
+import tr.org.liderahenk.liderconsole.core.constants.LiderConstants;
 import tr.org.liderahenk.liderconsole.core.dialogs.IProfileDialog;
 import tr.org.liderahenk.liderconsole.core.model.Profile;
+import tr.org.liderahenk.liderconsole.core.utils.SWTResourceManager;
 
 public class BrowserProfileDialog implements IProfileDialog {
 
@@ -149,21 +150,16 @@ public class BrowserProfileDialog implements IProfileDialog {
 	 * @param compositePreferences
 	 */
 	private void createPreferenceButtons(Composite compositePreferences) {
-		Group group = new Group(compositePreferences, SWT.NONE);
+		Composite group = new Composite(compositePreferences, SWT.NONE);
 		group.setLayout(new GridLayout(2, false));
-
-		GridData gdBrowserPrefOperations = new GridData(SWT.LEFT, SWT.CENTER, false, false);
-		gdBrowserPrefOperations.heightHint = 45;
-		gdBrowserPrefOperations.widthHint = 588;
-		group.setLayoutData(gdBrowserPrefOperations);
-		group.setBounds(0, 0, 68, 68);
+		group.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
 
 		Button btnAddPref = new Button(group, SWT.NONE);
 		GridData gdBtnAddPref = new GridData(SWT.LEFT, SWT.CENTER, false, false);
 		gdBtnAddPref.widthHint = 77;
 		btnAddPref.setLayoutData(gdBtnAddPref);
 		btnAddPref.setText(Messages.getString("ADD"));
-		btnAddPref.setImage(new Image(group.getDisplay(), this.getClass().getResourceAsStream("/icons/add.png")));
+		btnAddPref.setImage(SWTResourceManager.getImage(LiderConstants.PLUGIN_IDS.LIDER_CONSOLE_CORE, "icons/16/add.png"));
 		btnAddPref.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -178,7 +174,7 @@ public class BrowserProfileDialog implements IProfileDialog {
 		GridData gdBtnRemovePref = new GridData(SWT.LEFT, SWT.CENTER, false, false);
 		gdBtnRemovePref.widthHint = 82;
 		btnRemovePref.setLayoutData(gdBtnRemovePref);
-		btnRemovePref.setImage(new Image(group.getDisplay(), this.getClass().getResourceAsStream("/icons/remove.png")));
+		btnRemovePref.setImage(SWTResourceManager.getImage(LiderConstants.PLUGIN_IDS.LIDER_CONSOLE_CORE, "icons/16/delete.png"));
 		btnRemovePref.setText(Messages.getString("REMOVE"));
 		btnRemovePref.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -312,7 +308,7 @@ public class BrowserProfileDialog implements IProfileDialog {
 	}
 
 	@Override
-	public Map<String, Object> getProfileData() {
+	public Map<String, Object> getProfileData() throws Exception {
 		Map<String, Object> profileData = new HashMap<String, Object>();
 		LinkedHashSet<BrowserPreference> set = new LinkedHashSet<BrowserPreference>();
 		if (preferenceList != null) {
@@ -334,7 +330,7 @@ public class BrowserProfileDialog implements IProfileDialog {
 		if (temp != null) {
 			set.addAll(temp);
 		}
-		profileData.put(BrowserConstants.PREFERENCES_MAP_KEY, set);
+		profileData.put(BrowserConstants.PREFERENCES_MAP_KEY, new ObjectMapper().writeValueAsString(set));
 		return profileData;
 	}
 

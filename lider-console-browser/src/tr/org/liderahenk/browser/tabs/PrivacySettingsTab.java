@@ -12,7 +12,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
 import tr.org.liderahenk.browser.i18n.Messages;
@@ -43,20 +42,10 @@ public class PrivacySettingsTab implements ISettingsTab {
 	@Override
 	public void createInputs(Composite tabComposite,
 			Profile profile) throws Exception {
-		
-		Group group = new Group(tabComposite, SWT.BORDER_DOT);
-		GridData gd = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd.heightHint = 720;
-		gd.widthHint = 588;
-		group.setBounds(5, 5, 720, 445);
-		group.setLayout(new GridLayout(2, true));
-		group.setLayoutData(gd);
-		group.setVisible(true);
 
-		((ScrolledComposite) tabComposite).setContent(group);
-		((ScrolledComposite) tabComposite).setExpandVertical(true);
-		((ScrolledComposite) tabComposite).setExpandHorizontal(true);
-		((ScrolledComposite) tabComposite).setMinSize(400,400);
+		Composite group = new Composite(tabComposite, SWT.NONE);
+		group.setLayout(new GridLayout(2, false));
+		group.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
 		
 		Set<BrowserPreference> preferences = BrowserUtil.getPreferences(profile);
 		
@@ -183,6 +172,12 @@ public class PrivacySettingsTab implements ISettingsTab {
 		new Label(group, SWT.NONE);
 		
 		handleCookieSelection();
+		
+		((ScrolledComposite) tabComposite).setContent(group);
+		group.setSize(group.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		((ScrolledComposite) tabComposite).setExpandVertical(true);
+		((ScrolledComposite) tabComposite).setExpandHorizontal(true);
+		((ScrolledComposite) tabComposite).setMinSize(group.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	}
 
 	@Override

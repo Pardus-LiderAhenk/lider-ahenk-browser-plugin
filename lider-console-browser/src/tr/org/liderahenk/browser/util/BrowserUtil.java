@@ -1,6 +1,10 @@
 package tr.org.liderahenk.browser.util;
 
+import java.io.IOException;
 import java.util.Set;
+
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 
 import tr.org.liderahenk.browser.constants.BrowserConstants;
 import tr.org.liderahenk.browser.model.BrowserPreference;
@@ -19,10 +23,18 @@ public class BrowserUtil {
 	 * @param profile
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public static Set<BrowserPreference> getPreferences(Profile profile) {
 		if (profile != null && profile.getProfileData() != null) {
-			return (Set<BrowserPreference>) profile.getProfileData().get(BrowserConstants.PREFERENCES_MAP_KEY);
+			String setJsonStr = profile.getProfileData().get(BrowserConstants.PREFERENCES_MAP_KEY).toString();
+			try {
+				ObjectMapper mapper = new ObjectMapper();
+				Set<BrowserPreference> preferences = mapper.readValue(setJsonStr,
+						new TypeReference<Set<BrowserPreference>>() {
+						});
+				return preferences;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -34,9 +46,12 @@ public class BrowserUtil {
 	 * @return
 	 */
 	public static String getPreferenceValue(Set<BrowserPreference> preferences, String preferenceName) {
-		for (BrowserPreference pref : preferences) {
-			if (pref != null && pref.getPreferenceName() != null && pref.getPreferenceName().equals(preferenceName)) {
-				return pref.getValue();
+		if (preferences != null) {
+			for (BrowserPreference pref : preferences) {
+				if (pref != null && pref.getPreferenceName() != null
+						&& pref.getPreferenceName().equals(preferenceName)) {
+					return pref.getValue();
+				}
 			}
 		}
 		return null;

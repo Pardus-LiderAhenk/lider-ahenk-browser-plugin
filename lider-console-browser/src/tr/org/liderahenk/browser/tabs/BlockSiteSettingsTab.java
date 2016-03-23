@@ -20,7 +20,6 @@ import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -37,6 +36,7 @@ import tr.org.liderahenk.browser.model.BlockSiteURL;
 import tr.org.liderahenk.browser.model.BrowserPreference;
 import tr.org.liderahenk.browser.util.BrowserUtil;
 import tr.org.liderahenk.browser.util.PreferenceNames;
+import tr.org.liderahenk.liderconsole.core.constants.LiderConstants;
 import tr.org.liderahenk.liderconsole.core.model.Profile;
 import tr.org.liderahenk.liderconsole.core.utils.SWTResourceManager;
 
@@ -49,7 +49,6 @@ public class BlockSiteSettingsTab implements ISettingsTab {
 	private Button btnWhitelist;
 	private Label lblList;
 	private TableViewer tblVwrUrl;
-	private Profile browserProfile;
 
 	private List<BlockSiteURL> blockedUrlList;
 	private List<BlockSiteURL> allowedUrlList;
@@ -64,20 +63,9 @@ public class BlockSiteSettingsTab implements ISettingsTab {
 	@Override
 	public void createInputs(Composite tabComposite, Profile profile) throws Exception {
 
-		this.browserProfile = profile;
-
-		Group group = new Group(tabComposite, SWT.BORDER_DOT);
-		GridData gd = new GridData(SWT.LEFT, SWT.CENTER, false, false);
-		gd.heightHint = 800;
-		gd.widthHint = 500;
-		group.setBounds(5, 5, 800, 480);
+		Composite group = new Composite(tabComposite, SWT.NONE);
 		group.setLayout(new GridLayout(2, false));
-		group.setLayoutData(gd);
-
-		((ScrolledComposite) tabComposite).setContent(group);
-		((ScrolledComposite) tabComposite).setExpandVertical(true);
-		((ScrolledComposite) tabComposite).setExpandHorizontal(true);
-		((ScrolledComposite) tabComposite).setMinSize(400, 500);
+		group.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
 
 		Set<BrowserPreference> preferences = BrowserUtil.getPreferences(profile);
 
@@ -143,9 +131,15 @@ public class BlockSiteSettingsTab implements ISettingsTab {
 		createListTable(group, preferences);
 
 		handleRadioButton();
+		
+		((ScrolledComposite) tabComposite).setContent(group);
+		group.setSize(group.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		((ScrolledComposite) tabComposite).setExpandVertical(true);
+		((ScrolledComposite) tabComposite).setExpandHorizontal(true);
+		((ScrolledComposite) tabComposite).setMinSize(group.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	}
 
-	private void createListButtons(Group parentGroup) {
+	private void createListButtons(Composite parentGroup) {
 
 		Group group = new Group(parentGroup, SWT.NONE);
 		group.setLayout(new GridLayout(2, false));
@@ -155,7 +149,7 @@ public class BlockSiteSettingsTab implements ISettingsTab {
 		Button btnAddPref = new Button(group, SWT.NONE);
 		btnAddPref.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
 		btnAddPref.setText(Messages.getString("ADD"));
-		btnAddPref.setImage(new Image(group.getDisplay(), this.getClass().getResourceAsStream("/icons/add.png")));
+		btnAddPref.setImage(SWTResourceManager.getImage(LiderConstants.PLUGIN_IDS.LIDER_CONSOLE_CORE, "icons/16/add.png"));
 		btnAddPref.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -168,7 +162,7 @@ public class BlockSiteSettingsTab implements ISettingsTab {
 
 		Button btnRemovePref = new Button(group, SWT.NONE);
 		btnRemovePref.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
-		btnRemovePref.setImage(new Image(group.getDisplay(), this.getClass().getResourceAsStream("/icons/remove.png")));
+		btnRemovePref.setImage(SWTResourceManager.getImage(LiderConstants.PLUGIN_IDS.LIDER_CONSOLE_CORE, "icons/16/delete.png"));
 		btnRemovePref.setText(Messages.getString("REMOVE"));
 		btnRemovePref.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -184,7 +178,7 @@ public class BlockSiteSettingsTab implements ISettingsTab {
 
 	}
 
-	private void createListTable(final Group parentGroup, Set<BrowserPreference> preferences) {
+	private void createListTable(final Composite parentGroup, Set<BrowserPreference> preferences) {
 
 		tblVwrUrl = new TableViewer(parentGroup,
 				SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
@@ -202,8 +196,8 @@ public class BlockSiteSettingsTab implements ISettingsTab {
 
 		createTableColumns();
 
-		setBlockedUrlList(getURLItems(preferences, browserProfile, true));
-		setAllowedUrlList(getURLItems(preferences, browserProfile, false));
+		setBlockedUrlList(getURLItems(preferences, true));
+		setAllowedUrlList(getURLItems(preferences, false));
 		tblVwrUrl.setInput(btnBlacklist.getSelection() ? getBlockedUrlList() : getAllowedUrlList());
 		tblVwrUrl.refresh();
 
@@ -237,11 +231,10 @@ public class BlockSiteSettingsTab implements ISettingsTab {
 	 * useBlacklist parameter
 	 * 
 	 * @param preferences
-	 * @param browserProfile
 	 * @param useBlacklist
 	 * @return
 	 */
-	private List<BlockSiteURL> getURLItems(Set<BrowserPreference> preferences, Profile browserProfile,
+	private List<BlockSiteURL> getURLItems(Set<BrowserPreference> preferences,
 			boolean useBlacklist) {
 		String urlStr = BrowserUtil.getPreferenceValue(preferences,
 				useBlacklist ? PreferenceNames.BLACK_LIST : PreferenceNames.WHITE_LIST);

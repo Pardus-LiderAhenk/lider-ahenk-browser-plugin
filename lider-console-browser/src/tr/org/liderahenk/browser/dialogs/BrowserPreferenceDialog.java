@@ -63,9 +63,6 @@ public class BrowserPreferenceDialog extends TitleAreaDialog {
 		createValue(composite);
 
 		applyDialogFont(composite);
-		// PlatformUI.getWorkbench().getHelpSystem().setHelp(parent,
-		// "LiderConsole.Browser.browser_preferences");
-
 		return composite;
 	}
 

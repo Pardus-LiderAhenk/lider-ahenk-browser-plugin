@@ -12,7 +12,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
@@ -44,18 +43,9 @@ public class GeneralSettingsTab implements ISettingsTab {
 	@Override
 	public void createInputs(Composite tabComposite, Profile profile) throws Exception {
 
-		Group group = new Group(tabComposite, SWT.BORDER_DOT);
-		GridData gd = new GridData(SWT.LEFT, SWT.CENTER, false, false);
-		gd.heightHint = 800;
-		gd.widthHint = 500;
-		group.setBounds(5, 5, 800, 480);
+		Composite group = new Composite(tabComposite, SWT.NONE);
 		group.setLayout(new GridLayout(2, false));
-		group.setLayoutData(gd);
-
-		((ScrolledComposite) tabComposite).setContent(group);
-		((ScrolledComposite) tabComposite).setExpandVertical(true);
-		((ScrolledComposite) tabComposite).setExpandHorizontal(true);
-		((ScrolledComposite) tabComposite).setMinSize(400, 500);
+		group.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
 
 		Set<BrowserPreference> preferences = BrowserUtil.getPreferences(profile);
 
@@ -190,7 +180,12 @@ public class GeneralSettingsTab implements ISettingsTab {
 		new Label(group, SWT.NONE);
 
 		handleRadioButton();
-
+		
+		((ScrolledComposite) tabComposite).setContent(group);
+		group.setSize(group.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		((ScrolledComposite) tabComposite).setExpandVertical(true);
+		((ScrolledComposite) tabComposite).setExpandHorizontal(true);
+		((ScrolledComposite) tabComposite).setMinSize(group.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	}
 
 	@Override
