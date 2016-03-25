@@ -2,81 +2,93 @@
 <?eclipse version="3.4"?>
 <plugin>
    
-   <extension
-         point="org.eclipse.ui.commands">
-      <category
+	<extension
+		point="org.eclipse.ui.commands">
+		<category
             id="tr.org.liderahenk.liderconsole.commands.category"
             name="%commands.category">
-      </category>         
-      <command
+		</category>         
+		<command
             categoryId="tr.org.liderahenk.liderconsole.commands.category"
             id="tr.org.liderahenk.liderconsole.commands.BrowserProfile"            
             name="%command.browser.profile">
-      </command>
-   </extension>
+		</command>
+	</extension>
    
-   <extension
-       point="org.eclipse.ui.handlers">      
-       <handler
-            class="tr.org.liderahenk.browser.handlers.BrowserProfileHandler"
-            commandId="tr.org.liderahenk.liderconsole.commands.BrowserProfile">
-		   <enabledWhen>
-				<and>
+	<extension
+		point="org.eclipse.ui.handlers">      
+		<handler
+			class="tr.org.liderahenk.browser.handlers.BrowserProfileHandler"
+			commandId="tr.org.liderahenk.liderconsole.commands.BrowserProfile">
+			<!-- TODO Uncomment this after updating/fixing LiderSourceProvider -->
+			<!-- <enabledWhen>
+		       <and>
 		          <with
-		                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.available">
+		                variable="tr.org.pardus.mys.liderconsole.core.sourceproviders.main.available">
 		             <equals
 		                   value="true">
 		             </equals>
 		          </with>
-				<with
-	                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.isAhenkSelected">
-	             	<equals
-		                   value="true">
-		            </equals>
-	          	</with>
+		          <with
+		                variable="tr.org.pardus.mys.liderconsole.core.sourceproviders.main.privilegesForSelectedItem">
+		             <iterate operator="or">
+		                <or>
+		                   <equals
+		                         value="ALL">
+		                   </equals>
+		                   <equals
+		                         value="BROWSER/SAVE/DB">
+		                   </equals>
+		                </or>
+		             </iterate>
+		          </with>
 		       </and>
-		    </enabledWhen>        
-      </handler>
-  </extension>
+			</enabledWhen> -->
+		</handler>
+	</extension>
   
-  <extension
+	<extension
          point="org.eclipse.ui.menus">
-     <menuContribution
-      		allPopups="false"
-            locationURI="popup:tr.org.liderahenk.liderconsole.menus.LiderProfilePopup?after=additions">
- 				<command
-                  commandId="tr.org.liderahenk.liderconsole.commands.BrowserProfile"
-                  id="tr.org.liderahenk.liderconsole.commands.BrowserProfile"
-                  icon="icons/16/browser.png"
-                  tooltip="%command.browser.profile">
-				   <visibleWhen>
-					   <and>
-			                <iterate operator="or">		
-			                	<or>
-							  	<with
-					                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.isSearchSelected">
-						             <equals
-						                   value="true">
-						             </equals>
-					          	</with>
-					          	<with
-					                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.isEntrySelected">
-						             <equals
-						                   value="true">
-						             </equals>
-					          	</with>
-					        	</or>
-					        </iterate>
-							<with
-				                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.isAhenkSelected">
-				             	<equals
+     	<!-- Add menu command for profile definition dialog -->
+	     <menuContribution
+	            locationURI="menu:tr.org.liderahenk.liderconsole.menus.ProfileDefinition?after=additions">
+			<command
+				commandId="tr.org.liderahenk.liderconsole.commands.BrowserProfile"
+				id="tr.org.liderahenk.liderconsole.commands.BrowserProfile"
+				icon="icons/16/browser.png"
+				tooltip="%command.browser.profile">
+					<!-- TODO Uncomment this after updating/fixing LiderSourceProvider -->
+					   <!-- <visibleWhen>
+					       <and>
+					          <with
+					                variable="tr.org.pardus.mys.liderconsole.core.sourceproviders.main.available">
+					             <equals
 					                   value="true">
-					            </equals>
-				          	</with>
-					    </and>
-					</visibleWhen>               
-           		</command>
-      </menuContribution>
-  </extension>
+					             </equals>
+					          </with>
+					          <with
+					                variable="tr.org.pardus.mys.liderconsole.core.sourceproviders.main.privilegesForSelectedItem">
+					             <iterate operator="or">
+					                <or>
+					                   <equals
+					                         value="ALL">
+					                   </equals>
+					                   <equals
+					                         value="BROWSER/SAVE/DB">
+					                   </equals>
+					                </or>
+					             </iterate>
+					          </with>
+					       </and>
+					    </visibleWhen> -->           
+			</command>
+		</menuContribution>
+	</extension>
+	
+	<!-- Add extension point contribution for policy execution dialogs -->
+	<extension
+  		point="tr.org.liderahenk.liderconsole.core.policymenu">
+  		<policyItem label="%command.browser.profile" pluginName="lider-browser" pluginVersion="1.0.0" profileCommandId="tr.org.liderahenk.liderconsole.commands.BrowserProfile" />
+  	</extension>
   
 </plugin>
