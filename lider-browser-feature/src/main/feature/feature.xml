@@ -4,7 +4,7 @@
 	HOW TO INSTALL BUNDLES INTO KARAF:
 
 	feature:repo-add  mvn:tr.org.liderahenk/lider-browser-feature/1.0.0/xml/features
-	feature:install lider-browser-feature
+	feature:install lider-browser
 
     Licensed to the Apache Software Foundation (ASF) under one or more
     contributor license agreements.  See the NOTICE file distributed with
