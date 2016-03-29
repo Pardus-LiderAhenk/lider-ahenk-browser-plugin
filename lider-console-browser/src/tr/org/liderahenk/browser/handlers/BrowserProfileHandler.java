@@ -7,6 +7,8 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import tr.org.liderahenk.browser.constants.BrowserConstants;
 import tr.org.liderahenk.browser.dialogs.BrowserProfileDialog;
@@ -21,18 +23,22 @@ import tr.org.liderahenk.liderconsole.core.editorinput.ProfileEditorInput;
  */
 public class BrowserProfileHandler extends AbstractHandler {
 
+	private Logger logger = LoggerFactory.getLogger(BrowserProfileHandler.class);
+
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
 		IWorkbenchPage page = window.getActivePage();
+
 		try {
 			page.openEditor(
 					new ProfileEditorInput(Messages.getString("BROWSER"), BrowserConstants.PLUGIN_NAME,
 							BrowserConstants.PLUGIN_VERSION, new BrowserProfileDialog()),
 					LiderConstants.EDITORS.PROFILE_EDITOR);
 		} catch (PartInitException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
+
 		return null;
 	}
 
