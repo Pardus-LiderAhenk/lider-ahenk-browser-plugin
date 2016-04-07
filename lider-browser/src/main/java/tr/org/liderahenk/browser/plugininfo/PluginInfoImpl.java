@@ -6,7 +6,7 @@ public class PluginInfoImpl implements IPluginInfo {
 	
 	@Override
 	public String getPluginName() {
-		return "lider-browser";
+		return "browser";
 	}
 
 	@Override
