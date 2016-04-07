@@ -88,7 +88,7 @@
 	<!-- Add extension point contribution for policy execution dialogs -->
 	<extension
   		point="tr.org.liderahenk.liderconsole.core.policymenu">
-  		<policyItem label="%command.browser.profile" pluginName="lider-browser" pluginVersion="1.0.0" profileCommandId="tr.org.liderahenk.liderconsole.commands.BrowserProfile" />
+  		<policyItem label="%command.browser.profile" pluginName="browser" pluginVersion="1.0.0" profileCommandId="tr.org.liderahenk.liderconsole.commands.BrowserProfile" />
   	</extension>
   
 </plugin>
