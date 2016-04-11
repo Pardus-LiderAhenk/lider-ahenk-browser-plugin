@@ -1,10 +1,9 @@
 package tr.org.liderahenk.browser.util;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Set;
-
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 
 import tr.org.liderahenk.browser.constants.BrowserConstants;
 import tr.org.liderahenk.browser.model.BrowserPreference;
@@ -23,16 +22,23 @@ public class BrowserUtil {
 	 * @param profile
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public static Set<BrowserPreference> getPreferences(Profile profile) {
 		if (profile != null && profile.getProfileData() != null) {
-			String setJsonStr = profile.getProfileData().get(BrowserConstants.PREFERENCES_MAP_KEY).toString();
 			try {
-				ObjectMapper mapper = new ObjectMapper();
-				Set<BrowserPreference> preferences = mapper.readValue(setJsonStr,
-						new TypeReference<Set<BrowserPreference>>() {
-						});
+				Set<BrowserPreference> preferences = new HashSet<BrowserPreference>();
+				ArrayList<LinkedHashMap<String, String>> temp = (ArrayList<LinkedHashMap<String, String>>) profile
+						.getProfileData().get(BrowserConstants.PREFERENCES_MAP_KEY);
+				if (temp != null) {
+					for (LinkedHashMap<String, String> pref : temp) {
+						String value = pref.get("value");
+						String preferenceName = pref.get("preferenceName");
+						BrowserPreference preference = new BrowserPreference(preferenceName, value);
+						preferences.add(preference);
+					}
+				}
 				return preferences;
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}

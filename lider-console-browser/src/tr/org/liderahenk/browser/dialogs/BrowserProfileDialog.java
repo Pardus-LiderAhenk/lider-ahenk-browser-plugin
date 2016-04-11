@@ -8,7 +8,6 @@ import java.util.Set;
 
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -159,7 +158,8 @@ public class BrowserProfileDialog implements IProfileDialog {
 		gdBtnAddPref.widthHint = 77;
 		btnAddPref.setLayoutData(gdBtnAddPref);
 		btnAddPref.setText(Messages.getString("ADD"));
-		btnAddPref.setImage(SWTResourceManager.getImage(LiderConstants.PLUGIN_IDS.LIDER_CONSOLE_CORE, "icons/16/add.png"));
+		btnAddPref.setImage(
+				SWTResourceManager.getImage(LiderConstants.PLUGIN_IDS.LIDER_CONSOLE_CORE, "icons/16/add.png"));
 		btnAddPref.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -174,7 +174,8 @@ public class BrowserProfileDialog implements IProfileDialog {
 		GridData gdBtnRemovePref = new GridData(SWT.LEFT, SWT.CENTER, false, false);
 		gdBtnRemovePref.widthHint = 82;
 		btnRemovePref.setLayoutData(gdBtnRemovePref);
-		btnRemovePref.setImage(SWTResourceManager.getImage(LiderConstants.PLUGIN_IDS.LIDER_CONSOLE_CORE, "icons/16/delete.png"));
+		btnRemovePref.setImage(
+				SWTResourceManager.getImage(LiderConstants.PLUGIN_IDS.LIDER_CONSOLE_CORE, "icons/16/delete.png"));
 		btnRemovePref.setText(Messages.getString("REMOVE"));
 		btnRemovePref.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -330,7 +331,7 @@ public class BrowserProfileDialog implements IProfileDialog {
 		if (temp != null) {
 			set.addAll(temp);
 		}
-		profileData.put(BrowserConstants.PREFERENCES_MAP_KEY, new ObjectMapper().writeValueAsString(set));
+		profileData.put(BrowserConstants.PREFERENCES_MAP_KEY, set);
 		return profileData;
 	}
 
