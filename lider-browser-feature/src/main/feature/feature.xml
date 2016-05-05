@@ -29,6 +29,7 @@
     </feature>
 
     <feature name="lider-browser-bundles" version="${project.version}">
+    	<configfile finalname="/etc/tr.org.liderahenk.browser.cfg">mvn:${groupId}/lider-browser/${project.version}/cfg</configfile>
 		<bundle>mvn:tr.org.liderahenk/lider-browser/${project.version}</bundle>
     </feature>
 
