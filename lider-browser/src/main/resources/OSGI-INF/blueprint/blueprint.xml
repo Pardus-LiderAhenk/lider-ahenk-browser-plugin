@@ -10,12 +10,11 @@
 	<cm:property-placeholder persistent-id="tr.org.liderahenk.browser"
 		update-strategy="reload">
 	</cm:property-placeholder>
-	
+
 	<!-- IPluginInfo implementation is used to register plugin -->
-  	<service ref="pluginInfoImpl"
-      	interface="tr.org.liderahenk.lider.core.api.plugin.IPluginInfo" />
-  	<bean id="pluginInfoImpl" 
-		class="tr.org.liderahenk.browser.plugininfo.PluginInfoImpl"
+	<service ref="pluginInfoImpl"
+		interface="tr.org.liderahenk.lider.core.api.plugin.IPluginInfo" />
+	<bean id="pluginInfoImpl" class="tr.org.liderahenk.browser.plugininfo.PluginInfoImpl"
 		init-method="refresh">
 		<property name="pluginName" value="${plugin.name}" />
 		<property name="pluginVersion" value="${plugin.version}" />
@@ -24,10 +23,7 @@
 		<property name="userOriented" value="${plugin.user.oriented}" />
 		<property name="policyPlugin" value="${plugin.policy.plugin}" />
 		<property name="xbased" value="${plugin.x.based}" />
-		<property name="distroHost" value="${plugin.distro.host}" />
-		<property name="distroUsername" value="${plugin.distro.username}" />
-		<property name="distroPassword" value="${plugin.distro.password}" />
-		<property name="distroPath" value="${plugin.distro.path}" />
+		<property name="distroUrl" value="${plugin.distro.url}" />
 	</bean>
-	
+
 </blueprint>
