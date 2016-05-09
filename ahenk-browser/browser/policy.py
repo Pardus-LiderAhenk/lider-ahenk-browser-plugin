@@ -6,6 +6,7 @@
 import json
 import os
 
+from base.model.enum.MessageCode import MessageCode
 from base.plugin.AbstractCommand import AbstractCommand
 
 
@@ -21,12 +22,6 @@ class Browser(AbstractCommand):
         self.local_settings_JS_path = 'defaults/pref/'
         self.logger = self.scope.getLogger()
 
-        self.context.put('message_type','qwe')
-        self.context.put('message_code','qwe')
-        self.context.put('message','qwe')
-        self.context.put('data',None)
-        self.context.put('content_type',None)
-
     def handle_policy(self):
 
         self.logger.info('[Browser] Browser plugin handling...')
@@ -35,16 +30,16 @@ class Browser(AbstractCommand):
             if username is not None:
                 self.logger.debug('[Browser] Writing preferences to user profile')
                 self.write_to_user_profile(username)
-                self.set_result('POLICY_STATUS', 'POLICY_PROCESSED', 'User browser profile processed successfully')
+                self.context.create_response(code=MessageCode.POLICY_PROCESSED.value, message='User browser profile processed successfully')
 
             else:
                 self.logger.debug('[Browser] Writing preferences to global profile')
                 self.write_to_global_profile()
-                self.set_result('POLICY_STATUS', 'POLICY_PROCESSED', 'Agent browser profile processed successfully')
+                self.context.create_response(code=MessageCode.POLICY_PROCESSED.value, message='Agent browser profile processed successfully')
             self.logger.info('[Browser] Browser profile is handled successfully')
         except Exception as e:
             self.logger.error('[Browser] A problem occured while handling browser profile: {0}'.format(str(e)))
-            self.set_result('POLICY_STATUS', 'POLICY_PROCESSED', 'A problem occured while handling browser profile: {0}'.format(str(e)))
+            self.context.create_response(code=MessageCode.POLICY_ERROR.value, message='A problem occured while handling browser profile: {0}'.format(str(e)))
 
     def write_to_user_profile(self, username):
 
@@ -109,7 +104,7 @@ class Browser(AbstractCommand):
             os.makedirs(local_settings_path)
         local_settings_js = open(local_settings_path + self.local_settings_JS_file, 'w')
         local_settings_js.write(
-            'pref("general.config.obscure_value", 0);\npref("general.config.filename", "mozilla.cfg");\n')
+                'pref("general.config.obscure_value", 0);\npref("general.config.filename", "mozilla.cfg");\n')
         local_settings_js.close()
         self.logger.debug('[Browser] Firefox local settings were configured')
 
@@ -146,13 +141,6 @@ class Browser(AbstractCommand):
             return None
         self.logger.debug('[Browser] Firefox installation path found successfully')
         return installation_path
-
-    def set_result(self, type=None, code=None, message=None, data=None, content_type=None):
-        self.context.put('message_type', type)
-        self.context.put('message_code', code)
-        self.context.put('message', message)
-        self.context.put('data',None)
-        self.context.put('content_type',None)
 
 
 def handle_policy(profile_data, context):
