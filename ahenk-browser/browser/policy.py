@@ -7,8 +7,6 @@ import json
 import os
 
 from base.plugin.AbstractCommand import AbstractCommand
-from base.model.MessageType import MessageType
-from base.model.MessageCode import MessageCode
 
 
 class Browser(AbstractCommand):
@@ -58,7 +56,7 @@ class Browser(AbstractCommand):
             for path in profile_paths:
                 path = str(path) + '/user.js'
                 user_jss = open(path, 'w')
-                preferences = json.loads(self.data['preferences'])
+                preferences = json.loads(self.data)['preferences']
                 self.logger.debug('[Browser] Writing preferences to user.js file ...')
                 for pref in preferences:
                     if pref['value'].isdigit() or str(pref['value']) == 'false' or str(pref['value']) == 'true':
@@ -153,8 +151,8 @@ class Browser(AbstractCommand):
         self.context.put('message_type', type)
         self.context.put('message_code', code)
         self.context.put('message', message)
-        # self.context.put('data')
-        # self.context.put('content_type')
+        self.context.put('data',None)
+        self.context.put('content_type',None)
 
 
 def handle_policy(profile_data, context):
