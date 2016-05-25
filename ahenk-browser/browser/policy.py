@@ -5,7 +5,7 @@
 
 import json
 
-from base.plugin.AbstractPlugin import AbstractPlugin
+from base.plugin.abstract_plugin import AbstractPlugin
 
 
 class Browser(AbstractPlugin):
