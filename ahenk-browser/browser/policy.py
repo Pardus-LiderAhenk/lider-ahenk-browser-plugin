@@ -15,6 +15,8 @@ class Browser(AbstractPlugin):
         super(AbstractPlugin, self).__init__()
         self.data = data
         self.context = context
+        self.logger = self.get_logger()
+        self.message_code = self.get_message_code()
         self.mozilla_config_file = 'mozilla.cfg'
         self.local_settings_JS_file = 'local-settings.js'
         self.local_settings_JS_path = 'defaults/pref/'
@@ -27,9 +29,8 @@ class Browser(AbstractPlugin):
                 self.logger.debug('[Browser] Writing preferences to user profile')
                 self.write_to_user_profile(username)
                 self.context.create_response(code=self.message_code.POLICY_PROCESSED.value, message='User browser profile processed successfully')
-
             else:
-                self.logger().debug('[Browser] Writing preferences to global profile')
+                self.logger.debug('[Browser] Writing preferences to global profile')
                 self.write_to_global_profile()
                 self.context.create_response(code=self.message_code.POLICY_PROCESSED.value, message='Agent browser profile processed successfully')
             self.logger.info('[Browser] Browser profile is handled successfully')
@@ -60,7 +61,7 @@ class Browser(AbstractPlugin):
                 self.logger.debug('[Browser] User preferences were wrote successfully')
                 user_jss.close()
                 change_owner = 'chown ' + username + ':' + username + ' ' + path
-                self.context.execute(change_owner)
+                self.execute(change_owner)
                 self.logger.debug('[Browser] Preferences file owner is changed')
 
         except Exception as e:
@@ -80,7 +81,7 @@ class Browser(AbstractPlugin):
         try:
             preferences = json.loads(json.loads(str(self.data).replace("\'", "\""))['preferences'])
         except Exception as e:
-            print(str(e))
+            self.logger.error('[Browser] Problem occurred while getting preferences. Error Message: {}'.format(str(e)))
 
         mozilla_cfg = open(str(firefox_installation_path) + self.mozilla_config_file, 'w')
         self.logger.debug('[Browser] Mozilla configuration file is created')
@@ -109,7 +110,7 @@ class Browser(AbstractPlugin):
             self.delete_file(filename)
             self.logger.debug('[Browser] {0} removed successfully'.format(filename))
         except OSError as e:
-            self.logger.error('[Browser] Problem occured while removing file: {0}. Exception is: {1}'.format(filename, str(e)))
+            self.logger.error('[Browser] Problem occurred while removing file: {0}. Exception is: {1}'.format(filename, str(e)))
 
     def find_user_preference_paths(self, user_name):
 
@@ -143,4 +144,4 @@ def handle_policy(profile_data, context):
     print('BROWSER PLUGIN')
     browser = Browser(profile_data, context)
     browser.handle_policy()
-    print("This is policy file - BROWSER")
+    print("BROWSER PLUGIN PROCESSED")
