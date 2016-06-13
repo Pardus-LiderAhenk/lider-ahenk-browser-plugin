@@ -43,6 +43,7 @@ import tr.org.liderahenk.browser.tabs.ProxySettingsTab;
 import tr.org.liderahenk.browser.util.BrowserUtil;
 import tr.org.liderahenk.liderconsole.core.constants.LiderConstants;
 import tr.org.liderahenk.liderconsole.core.dialogs.IProfileDialog;
+import tr.org.liderahenk.liderconsole.core.exceptions.ValidationException;
 import tr.org.liderahenk.liderconsole.core.model.Profile;
 import tr.org.liderahenk.liderconsole.core.utils.SWTResourceManager;
 
@@ -333,6 +334,14 @@ public class BrowserProfileDialog implements IProfileDialog {
 		}
 		profileData.put(BrowserConstants.PREFERENCES_MAP_KEY, set);
 		return profileData;
+	}
+
+	@Override
+	public void validateBeforeSave() throws ValidationException {
+		generalSettings.validateBeforeSave();
+		proxySettings.validateBeforeSave();
+		privacySettings.validateBeforeSave();
+		blockSiteSettingsTab.validateBeforeSave();
 	}
 
 	public BrowserProfileDialog getSelf() {

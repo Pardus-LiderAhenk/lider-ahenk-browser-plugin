@@ -37,6 +37,7 @@ import tr.org.liderahenk.browser.model.BrowserPreference;
 import tr.org.liderahenk.browser.util.BrowserUtil;
 import tr.org.liderahenk.browser.util.PreferenceNames;
 import tr.org.liderahenk.liderconsole.core.constants.LiderConstants;
+import tr.org.liderahenk.liderconsole.core.exceptions.ValidationException;
 import tr.org.liderahenk.liderconsole.core.model.Profile;
 import tr.org.liderahenk.liderconsole.core.utils.SWTResourceManager;
 
@@ -131,7 +132,7 @@ public class BlockSiteSettingsTab implements ISettingsTab {
 		createListTable(group, preferences);
 
 		handleRadioButton();
-		
+
 		((ScrolledComposite) tabComposite).setContent(group);
 		group.setSize(group.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 		((ScrolledComposite) tabComposite).setExpandVertical(true);
@@ -149,12 +150,13 @@ public class BlockSiteSettingsTab implements ISettingsTab {
 		Button btnAddPref = new Button(group, SWT.NONE);
 		btnAddPref.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
 		btnAddPref.setText(Messages.getString("ADD"));
-		btnAddPref.setImage(SWTResourceManager.getImage(LiderConstants.PLUGIN_IDS.LIDER_CONSOLE_CORE, "icons/16/add.png"));
+		btnAddPref.setImage(
+				SWTResourceManager.getImage(LiderConstants.PLUGIN_IDS.LIDER_CONSOLE_CORE, "icons/16/add.png"));
 		btnAddPref.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				BlockSiteListItemDialog dialog = new BlockSiteListItemDialog(
-						Display.getCurrent().getActiveShell(), getSelf());
+				BlockSiteListItemDialog dialog = new BlockSiteListItemDialog(Display.getCurrent().getActiveShell(),
+						getSelf());
 				dialog.create();
 				dialog.open();
 			}
@@ -162,7 +164,8 @@ public class BlockSiteSettingsTab implements ISettingsTab {
 
 		Button btnRemovePref = new Button(group, SWT.NONE);
 		btnRemovePref.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
-		btnRemovePref.setImage(SWTResourceManager.getImage(LiderConstants.PLUGIN_IDS.LIDER_CONSOLE_CORE, "icons/16/delete.png"));
+		btnRemovePref.setImage(
+				SWTResourceManager.getImage(LiderConstants.PLUGIN_IDS.LIDER_CONSOLE_CORE, "icons/16/delete.png"));
 		btnRemovePref.setText(Messages.getString("REMOVE"));
 		btnRemovePref.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -215,8 +218,8 @@ public class BlockSiteSettingsTab implements ISettingsTab {
 		tblVwrUrl.addDoubleClickListener(new IDoubleClickListener() {
 			@Override
 			public void doubleClick(DoubleClickEvent event) {
-				BlockSiteListItemDialog dialog = new BlockSiteListItemDialog(parentGroup.getShell(),
-						getSelectedUrl(), getSelf(), true);
+				BlockSiteListItemDialog dialog = new BlockSiteListItemDialog(parentGroup.getShell(), getSelectedUrl(),
+						getSelf(), true);
 				dialog.create();
 				dialog.open();
 			}
@@ -234,8 +237,7 @@ public class BlockSiteSettingsTab implements ISettingsTab {
 	 * @param useBlacklist
 	 * @return
 	 */
-	private List<BlockSiteURL> getURLItems(Set<BrowserPreference> preferences,
-			boolean useBlacklist) {
+	private List<BlockSiteURL> getURLItems(Set<BrowserPreference> preferences, boolean useBlacklist) {
 		String urlStr = BrowserUtil.getPreferenceValue(preferences,
 				useBlacklist ? PreferenceNames.BLACK_LIST : PreferenceNames.WHITE_LIST);
 		String descStr = BrowserUtil.getPreferenceValue(preferences,
@@ -385,6 +387,10 @@ public class BlockSiteSettingsTab implements ISettingsTab {
 
 	public void setTblVwrUrl(TableViewer tblVwrUrl) {
 		this.tblVwrUrl = tblVwrUrl;
+	}
+
+	@Override
+	public void validateBeforeSave() throws ValidationException {
 	}
 
 }

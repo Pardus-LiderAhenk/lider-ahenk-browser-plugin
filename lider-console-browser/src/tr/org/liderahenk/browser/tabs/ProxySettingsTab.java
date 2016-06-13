@@ -19,6 +19,7 @@ import tr.org.liderahenk.browser.i18n.Messages;
 import tr.org.liderahenk.browser.model.BrowserPreference;
 import tr.org.liderahenk.browser.util.BrowserUtil;
 import tr.org.liderahenk.browser.util.PreferenceNames;
+import tr.org.liderahenk.liderconsole.core.exceptions.ValidationException;
 import tr.org.liderahenk.liderconsole.core.model.Profile;
 import tr.org.liderahenk.liderconsole.core.utils.SWTResourceManager;
 
@@ -251,7 +252,7 @@ public class ProxySettingsTab implements ISettingsTab {
 		btnDontPromptForAuth.setSelection(val != null && val.equalsIgnoreCase("true") ? true : false);
 
 		handleProxyTypeSelection();
-		
+
 		((ScrolledComposite) tabComposite).setContent(group);
 		group.setSize(group.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 		((ScrolledComposite) tabComposite).setExpandVertical(true);
@@ -434,6 +435,10 @@ public class ProxySettingsTab implements ISettingsTab {
 			return cmbProxyType.getData(cmbProxyType.getItem(selectionIndex)).toString();
 		}
 		return "0";
+	}
+
+	@Override
+	public void validateBeforeSave() throws ValidationException {
 	}
 
 }

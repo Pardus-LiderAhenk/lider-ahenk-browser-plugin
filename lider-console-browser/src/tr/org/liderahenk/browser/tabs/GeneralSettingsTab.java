@@ -19,6 +19,7 @@ import tr.org.liderahenk.browser.i18n.Messages;
 import tr.org.liderahenk.browser.model.BrowserPreference;
 import tr.org.liderahenk.browser.util.BrowserUtil;
 import tr.org.liderahenk.browser.util.PreferenceNames;
+import tr.org.liderahenk.liderconsole.core.exceptions.ValidationException;
 import tr.org.liderahenk.liderconsole.core.model.Profile;
 import tr.org.liderahenk.liderconsole.core.utils.SWTResourceManager;
 
@@ -180,7 +181,7 @@ public class GeneralSettingsTab implements ISettingsTab {
 		new Label(group, SWT.NONE);
 
 		handleRadioButton();
-		
+
 		((ScrolledComposite) tabComposite).setContent(group);
 		group.setSize(group.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 		((ScrolledComposite) tabComposite).setExpandVertical(true);
@@ -228,6 +229,13 @@ public class GeneralSettingsTab implements ISettingsTab {
 			return cmbPageMode.getData(selectionIndex + "").toString();
 		}
 		return "1";
+	}
+
+	@Override
+	public void validateBeforeSave() throws ValidationException {
+		if (getSelectedPageMode().equals("1") && (txtHomePage.getText() == null || txtHomePage.getText().isEmpty())) { // HOME
+			throw new ValidationException(Messages.getString("FILL_HOME_PAGE"));
+		}
 	}
 
 }
