@@ -20,11 +20,13 @@ class Browser(AbstractPlugin):
         self.mozilla_config_file = 'mozilla.cfg'
         self.local_settings_JS_file = 'local-settings.js'
         self.local_settings_JS_path = 'defaults/pref/'
+        self.logger.info('[Browser] Parameters were initialized.')
 
     def handle_policy(self):
         self.logger.info('[Browser] Browser plugin handling...')
         try:
             username = self.context.get('username')
+            self.logger.info('[Browser] Username: {}'.format(username))
             if username is not None:
                 self.logger.debug('[Browser] Writing preferences to user profile')
                 self.write_to_user_profile(username)
@@ -79,7 +81,7 @@ class Browser(AbstractPlugin):
         firefox_installation_path = self.find_firefox_installation_path()
         preferences = None
         try:
-            preferences = json.loads(json.loads(str(self.data).replace("\'", "\""))['preferences'])
+            preferences = json.loads(str(self.data))['preferences']
         except Exception as e:
             self.logger.error('[Browser] Problem occurred while getting preferences. Error Message: {}'.format(str(e)))
 
