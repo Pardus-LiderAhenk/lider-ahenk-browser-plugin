@@ -37,8 +37,8 @@ class Browser(AbstractPlugin):
                 self.context.create_response(code=self.message_code.POLICY_PROCESSED.value, message='Agent browser profile processed successfully')
             self.logger.info('[Browser] Browser profile is handled successfully')
         except Exception as e:
-            self.logger.error('[Browser] A problem occured while handling browser profile: {0}'.format(str(e)))
-            self.context.create_response(code=self.message_code.POLICY_ERROR.value, message='A problem occured while handling browser profile: {0}'.format(str(e)))
+            self.logger.error('[Browser] A problem occurred while handling browser profile: {0}'.format(str(e)))
+            self.context.create_response(code=self.message_code.POLICY_ERROR.value, message='A problem occurred while handling browser profile: {0}'.format(str(e)))
 
     def write_to_user_profile(self, username):
 
@@ -67,7 +67,7 @@ class Browser(AbstractPlugin):
                 self.logger.debug('[Browser] Preferences file owner is changed')
 
         except Exception as e:
-            self.logger.error('[Browser] A problem occured while writing user profile: {0}'.format(str(e)))
+            self.logger.error('[Browser] A problem occurred while writing user profile: {0}'.format(str(e)))
             # Remove global lock files to tell Firefox to load the user file
         installation_path = self.find_firefox_installation_path()
         if installation_path is None:
@@ -109,10 +109,13 @@ class Browser(AbstractPlugin):
 
     def silent_remove(self, filename):
         try:
-            self.delete_file(filename)
-            self.logger.debug('[Browser] {0} removed successfully'.format(filename))
-        except OSError as e:
-            self.logger.error('[Browser] Problem occurred while removing file: {0}. Exception is: {1}'.format(filename, str(e)))
+            if self.is_exist(filename):
+                self.delete_file(filename)
+                self.logger.debug('[Browser] {0} removed successfully'.format(filename))
+            else:
+                self.logger.warning('[Browser] {0} was tried to delete but not found.'.format(filename))
+        except Exception as e:
+            self.logger.error('[Browser] Problem occurred while removing file {0}. Exception Message is: {1}'.format(filename, str(e)))
 
     def find_user_preference_paths(self, user_name):
 
