@@ -30,15 +30,15 @@ class Browser(AbstractPlugin):
             if username is not None:
                 self.logger.debug('[Browser] Writing preferences to user profile')
                 self.write_to_user_profile(username)
-                self.context.create_response(code=self.message_code.POLICY_PROCESSED.value, message='User browser profile processed successfully')
+                self.context.create_response(code=self.message_code.POLICY_PROCESSED.value, message='Kullanıcı browser profili başarıyla uygulandı.')
             else:
                 self.logger.debug('[Browser] Writing preferences to global profile')
                 self.write_to_global_profile()
-                self.context.create_response(code=self.message_code.POLICY_PROCESSED.value, message='Agent browser profile processed successfully')
+                self.context.create_response(code=self.message_code.POLICY_PROCESSED.value, message='Ajan browser profili başarıyla uygulandı.')
             self.logger.info('[Browser] Browser profile is handled successfully')
         except Exception as e:
             self.logger.error('[Browser] A problem occurred while handling browser profile: {0}'.format(str(e)))
-            self.context.create_response(code=self.message_code.POLICY_ERROR.value, message='A problem occurred while handling browser profile: {0}'.format(str(e)))
+            self.context.create_response(code=self.message_code.POLICY_ERROR.value, message='Browser profili uygulanırken bir hata oluştu.')
 
     def write_to_user_profile(self, username):
 
