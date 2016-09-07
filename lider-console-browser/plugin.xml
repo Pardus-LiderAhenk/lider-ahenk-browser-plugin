@@ -20,30 +20,6 @@
 		<handler
 			class="tr.org.liderahenk.browser.handlers.BrowserProfileHandler"
 			commandId="tr.org.liderahenk.liderconsole.commands.BrowserProfile">
-			<!-- TODO Uncomment this after updating/fixing LiderSourceProvider -->
-			<!-- <enabledWhen>
-		       <and>
-		          <with
-		                variable="tr.org.pardus.mys.liderconsole.core.sourceproviders.main.available">
-		             <equals
-		                   value="true">
-		             </equals>
-		          </with>
-		          <with
-		                variable="tr.org.pardus.mys.liderconsole.core.sourceproviders.main.privilegesForSelectedItem">
-		             <iterate operator="or">
-		                <or>
-		                   <equals
-		                         value="ALL">
-		                   </equals>
-		                   <equals
-		                         value="BROWSER/SAVE/DB">
-		                   </equals>
-		                </or>
-		             </iterate>
-		          </with>
-		       </and>
-			</enabledWhen> -->
 		</handler>
 	</extension>
   
@@ -57,30 +33,6 @@
 				id="tr.org.liderahenk.liderconsole.commands.BrowserProfile"
 				icon="icons/16/browser.png"
 				tooltip="%command.browser.profile">
-					<!-- TODO Uncomment this after updating/fixing LiderSourceProvider -->
-					   <!-- <visibleWhen>
-					       <and>
-					          <with
-					                variable="tr.org.pardus.mys.liderconsole.core.sourceproviders.main.available">
-					             <equals
-					                   value="true">
-					             </equals>
-					          </with>
-					          <with
-					                variable="tr.org.pardus.mys.liderconsole.core.sourceproviders.main.privilegesForSelectedItem">
-					             <iterate operator="or">
-					                <or>
-					                   <equals
-					                         value="ALL">
-					                   </equals>
-					                   <equals
-					                         value="BROWSER/SAVE/DB">
-					                   </equals>
-					                </or>
-					             </iterate>
-					          </with>
-					       </and>
-					    </visibleWhen> -->           
 			</command>
 		</menuContribution>
 	</extension>
@@ -89,6 +41,12 @@
 	<extension
   		point="tr.org.liderahenk.liderconsole.core.policymenu">
   		<policyItem label="%command.browser.profile" pluginName="browser" pluginVersion="1.0.0" profileCommandId="tr.org.liderahenk.liderconsole.commands.BrowserProfile" />
+  	</extension>
+  	
+	<!-- Add extension point contribution for i18n messages -->
+	<extension
+  		point="tr.org.liderahenk.liderconsole.core.i18n">
+		<plugin name="browser" label="%plugin.label" />
   	</extension>
   
 </plugin>
