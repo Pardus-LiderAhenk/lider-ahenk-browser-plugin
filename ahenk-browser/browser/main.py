@@ -5,4 +5,11 @@
 
 
 def info():
-    return None
+    inf = dict()
+    inf['name'] = 'browser'
+    inf['version'] = '1.0.0'
+    inf['support'] = 'debian'
+    inf['description'] = 'Browser plugin provides to managing user or global firefox profile like setting homepage etc.'
+    inf['developer'] = 'bm.volkansahin@gmail.com'
+
+    return inf
