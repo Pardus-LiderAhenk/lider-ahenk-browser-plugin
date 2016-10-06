@@ -146,7 +146,5 @@ class Browser(AbstractPlugin):
 
 
 def handle_policy(profile_data, context):
-    print('BROWSER PLUGIN')
     browser = Browser(profile_data, context)
     browser.handle_policy()
-    print("BROWSER PLUGIN PROCESSED")
