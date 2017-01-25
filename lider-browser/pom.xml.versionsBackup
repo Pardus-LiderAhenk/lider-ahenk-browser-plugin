@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>tr.org.liderahenk</groupId>
 		<artifactId>browser</artifactId>
-		<version>1.0.0-beta</version>
+		<version>1.0.0</version>
 	</parent>
 
 	<artifactId>lider-browser</artifactId>
@@ -92,7 +92,7 @@
 					<instructions>
 						<_removeheaders>Import-Service,Export-Service</_removeheaders>
 						<Bundle-SymbolicName>lider-browser</Bundle-SymbolicName>
-						<Bundle-Version>1.0.0-beta</Bundle-Version>
+						<Bundle-Version>1.0.0</Bundle-Version>
 						<Import-Package>!tr.org.liderahenk.browser.*, *</Import-Package>
 					</instructions>
 				</configuration>
