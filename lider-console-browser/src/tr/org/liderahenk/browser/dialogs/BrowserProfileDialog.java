@@ -183,7 +183,9 @@ public class BrowserProfileDialog implements IProfileDialog {
 			public void widgetSelected(SelectionEvent event) {
 				Set<BrowserPreference> list = getPreferenceList();
 				if (tableViewer.getTable().getSelectionIndex() > -1) {
-					list.remove(tableViewer.getTable().getSelectionIndex());
+					BrowserPreference prefToBeRemoved = (BrowserPreference) list.toArray()[tableViewer.getTable()
+							.getSelectionIndex()];
+					list.remove(prefToBeRemoved);
 					tableViewer.setInput(list);
 					tableViewer.refresh();
 				}
@@ -313,25 +315,32 @@ public class BrowserProfileDialog implements IProfileDialog {
 	public Map<String, Object> getProfileData() throws Exception {
 		Map<String, Object> profileData = new HashMap<String, Object>();
 		LinkedHashSet<BrowserPreference> set = new LinkedHashSet<BrowserPreference>();
-		if (preferenceList != null) {
-			set.addAll(preferenceList);
-		}
+
+		// Block site settings
 		Set<BrowserPreference> temp = blockSiteSettingsTab.getValues();
 		if (temp != null) {
 			set.addAll(temp);
 		}
+		// General settings
 		temp = generalSettings.getValues();
 		if (temp != null) {
 			set.addAll(temp);
 		}
+		// Proxy settings
 		temp = proxySettings.getValues();
 		if (temp != null) {
 			set.addAll(temp);
 		}
+		// Privacy settings
 		temp = privacySettings.getValues();
 		if (temp != null) {
 			set.addAll(temp);
 		}
+		// Add preference list, it may be modified via preference dialog
+		if (preferenceList != null) {
+			set.addAll(preferenceList);
+		}
+
 		profileData.put(BrowserConstants.PREFERENCES_MAP_KEY, set);
 		return profileData;
 	}
@@ -369,3 +378,4 @@ public class BrowserProfileDialog implements IProfileDialog {
 	}
 
 }
+

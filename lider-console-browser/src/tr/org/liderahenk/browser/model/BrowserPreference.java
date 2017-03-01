@@ -34,4 +34,30 @@ public class BrowserPreference implements Serializable {
 		this.value = value;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((preferenceName == null) ? 0 : preferenceName.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BrowserPreference other = (BrowserPreference) obj;
+		if (preferenceName == null) {
+			if (other.preferenceName != null)
+				return false;
+		} else if (!preferenceName.equals(other.preferenceName))
+			return false;
+		return true;
+	}
+
 }
+
