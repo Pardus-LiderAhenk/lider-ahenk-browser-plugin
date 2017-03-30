@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Author: >
 # Author: Volkan Şahin <volkansah.in> <bm.volkansahin@gmail.com>
 
 import json
@@ -45,26 +44,27 @@ class Browser(AbstractPlugin):
         try:
             username = str(username).strip()
             profile_paths = self.find_user_preference_paths(username)
+            if profile_paths is not None:
+                # User might have multiple firefox profile directories
+                for path in profile_paths:
+                    if self.is_exist(path):
+                        path = str(path) + '/user.js'
+                        user_jss = open(path, 'w')
+                        preferences = json.loads(self.data)['preferences']
+                        self.logger.debug('Writing preferences to user.js file ...')
+                        for pref in preferences:
+                            if pref['value'].isdigit() or str(pref['value']) == 'false' or str(pref['value']) == 'true':
+                                value = pref['value']
+                            else:
+                                value = '\"' + pref['value'] + '\"'
+                            line = 'user_pref("' + str(pref['preferenceName']) + '",' + value + ');\n'
+                            user_jss.write(line)
 
-            # User might have multiple firefox profile directories
-            for path in profile_paths:
-                path = str(path) + '/user.js'
-                user_jss = open(path, 'w')
-                preferences = json.loads(self.data)['preferences']
-                self.logger.debug('Writing preferences to user.js file ...')
-                for pref in preferences:
-                    if pref['value'].isdigit() or str(pref['value']) == 'false' or str(pref['value']) == 'true':
-                        value = pref['value']
-                    else:
-                        value = '\"' + pref['value'] + '\"'
-                    line = 'user_pref("' + str(pref['preferenceName']) + '",' + value + ');\n'
-                    user_jss.write(line)
-
-                self.logger.debug('User preferences were wrote successfully')
-                user_jss.close()
-                change_owner = 'chown ' + username + ':' + username + ' ' + path
-                self.execute(change_owner)
-                self.logger.debug('Preferences file owner is changed')
+                        self.logger.debug('User preferences were wrote successfully')
+                        user_jss.close()
+                        change_owner = 'chown ' + username + ':' + username + ' ' + path
+                        self.execute(change_owner)
+                        self.logger.debug('Preferences file owner is changed')
 
         except Exception as e:
             self.logger.error('A problem occurred while writing user profile: {0}'.format(str(e)))
@@ -121,11 +121,12 @@ class Browser(AbstractPlugin):
 
         paths = []
         firefox_path = '/home/' + user_name + '/.mozilla/firefox/'
-        profile_ini_file = open(firefox_path + 'profiles.ini', 'r')
-        profile_ini_file_lines = profile_ini_file.readlines()
-        for line in profile_ini_file_lines:
-            if 'Path' in line:
-                paths.append(firefox_path + str(line.split('=')[1]).strip())
+        if self.is_exist(firefox_path + 'profiles.ini'):
+            profile_ini_file = open(firefox_path + 'profiles.ini', 'r')
+            profile_ini_file_lines = profile_ini_file.readlines()
+            for line in profile_ini_file_lines:
+                if 'Path' in line:
+                    paths.append(firefox_path + str(line.split('=')[1]).strip())
         if len(paths) > 0:
             self.logger.debug('User preferences path found successfully')
             return paths
