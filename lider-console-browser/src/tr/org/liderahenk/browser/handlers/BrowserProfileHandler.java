@@ -15,31 +15,39 @@ import tr.org.liderahenk.browser.dialogs.BrowserProfileDialog;
 import tr.org.liderahenk.browser.i18n.Messages;
 import tr.org.liderahenk.liderconsole.core.constants.LiderConstants;
 import tr.org.liderahenk.liderconsole.core.editorinput.ProfileEditorInput;
+import tr.org.liderahenk.liderconsole.core.handlers.LiderAbstractHandler;
 
 /**
  * 
  * @author <a href="mailto:emre.akkaya@agem.com.tr">Emre Akkaya</a>
  *
  */
-public class BrowserProfileHandler extends AbstractHandler {
+public class BrowserProfileHandler extends LiderAbstractHandler {
 
 	private Logger logger = LoggerFactory.getLogger(BrowserProfileHandler.class);
+//
+//	@Override
+//	public Object execute(ExecutionEvent event) throws ExecutionException {
+//		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
+//		IWorkbenchPage page = window.getActivePage();
+//
+//		try {
+//			page.openEditor(
+//					new ProfileEditorInput(Messages.getString("BROWSER"), BrowserConstants.PLUGIN_NAME,
+//							BrowserConstants.PLUGIN_VERSION, new BrowserProfileDialog()),
+//					LiderConstants.EDITORS.PROFILE_EDITOR);
+//		} catch (PartInitException e) {
+//			logger.error(e.getMessage(), e);
+//		}
+//
+//		return null;
+//	}
 
+	
 	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
-		IWorkbenchPage page = window.getActivePage();
-
-		try {
-			page.openEditor(
-					new ProfileEditorInput(Messages.getString("BROWSER"), BrowserConstants.PLUGIN_NAME,
-							BrowserConstants.PLUGIN_VERSION, new BrowserProfileDialog()),
-					LiderConstants.EDITORS.PROFILE_EDITOR);
-		} catch (PartInitException e) {
-			logger.error(e.getMessage(), e);
-		}
-
-		return null;
+	public ProfileEditorInput getEditorInput() {
+		// TODO Auto-generated method stub
+		return new ProfileEditorInput(Messages.getString("BROWSER"), BrowserConstants.PLUGIN_NAME,
+				BrowserConstants.PLUGIN_VERSION, new BrowserProfileDialog());
 	}
-
 }
