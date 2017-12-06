@@ -33,7 +33,7 @@ Browser plugin for [Lider Ahenk project](http://www.liderahenk.org.tr) which can
 
 #### Ahenk
 
-1. Create a soft link for _ahenk-browser/browser_ directory via `sudo ln -s lider-ahenk-browser-plugin/ahenk-browser/browser/ /opt/ahenk/plugins`
+1. Create a soft link for _ahenk-browser/browser_ directory via `sudo ln -s lider-ahenk-browser-plugin/ahenk-browser/browser/ /usr/share/ahenk/plugins`
 
 ## Contribution
 
