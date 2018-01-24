@@ -7,7 +7,7 @@
 def info():
     inf = dict()
     inf['name'] = 'browser'
-    inf['version'] = '1.0.0'
+    inf['version'] = '1.1'
     inf['support'] = 'debian'
     inf['description'] = 'Browser plugin provides to managing user or global firefox profile like setting homepage etc.'
     inf['task'] = True
