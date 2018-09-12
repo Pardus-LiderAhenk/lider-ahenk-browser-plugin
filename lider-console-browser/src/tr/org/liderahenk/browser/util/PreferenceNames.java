@@ -8,6 +8,7 @@ public class PreferenceNames {
 	public static final String PAGE_MODE = "browser.startup.page";
 	public static final String USE_DOWNLOAD_DIR = "browser.download.useDownloadDir";
 	public static final String DOWNLOAD_DIR = "browser.download.dir";
+	public static final String USE_CUSTOM_DOWNLOAD_DIR = "browser.download.folderList";
 	public static final String OPEN_NEW_WINDOW = "browser.link.open_newwindow";
 	public static final String WARN_ON_CLOSE = "browser.tabs.warnOnClose";
 	public static final String WARN_ON_OPEN = "browser.tabs.warnOnOpen";

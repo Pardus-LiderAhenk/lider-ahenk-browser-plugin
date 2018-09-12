@@ -85,8 +85,9 @@ public class BrowserProfileDialog implements IProfileDialog {
 			privacySettings.createInputs(createInputTab(tabFolder, Messages.getString("PRIVACY_SETTINGS")), profile);
 
 			// Block Site Tab
-			blockSiteSettingsTab.createInputs(createInputTab(tabFolder, Messages.getString("BLOCK_SITE_SETTINGS")),
-					profile);
+			// Adding blacklist and whitelist is not possible with newer version of Blocksite extension 
+			// blockSiteSettingsTab.createInputs(createInputTab(tabFolder, Messages.getString("BLOCK_SITE_SETTINGS")),
+			//		profile);
 
 			// Web Browser Preferences Tab - Shows all preferences here!
 			Composite tabComposite = createInputTab(tabFolder, Messages.getString("PREFERENCES"), false);

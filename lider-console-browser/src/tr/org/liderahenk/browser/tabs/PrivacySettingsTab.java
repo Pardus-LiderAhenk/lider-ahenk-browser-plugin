@@ -37,8 +37,8 @@ public class PrivacySettingsTab implements ISettingsTab {
 
 	private final String[] acceptThirdPartyCookiesArr = new String[] { "ALWAYS", "FROM_VISITED", "NEVER" };
 	private final Integer[] acceptThirdPartyCookiesValueArr = new Integer[] { 0, 3, 2 };
-	private final String[] keepCookiesUntilArr = new String[] { "THEY_EXPIRE", "I_CLOSE_FIREFOX", "ASK_ME_EVERY_TIME" };
-	private final Integer[] keepCookiesUntilValueArr = new Integer[] { 0, 2, 1 };
+	private final String[] keepCookiesUntilArr = new String[] { "THEY_EXPIRE", "I_CLOSE_FIREFOX"};
+	private final Integer[] keepCookiesUntilValueArr = new Integer[] { 0, 2};
 
 	@Override
 	public void createInputs(Composite tabComposite, Profile profile) throws Exception {

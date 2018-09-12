@@ -200,6 +200,12 @@ public class GeneralSettingsTab implements ISettingsTab {
 		}
 		preferences.add(new BrowserPreference(PreferenceNames.USE_DOWNLOAD_DIR,
 				btnSaveFilesTo.getSelection() ? "true" : "false"));
+		if(btnSaveFilesTo.getSelection() == true) {
+			preferences.add(new BrowserPreference(PreferenceNames.USE_CUSTOM_DOWNLOAD_DIR, "2"));
+		}
+		else {
+			preferences.add(new BrowserPreference(PreferenceNames.USE_CUSTOM_DOWNLOAD_DIR, "1"));
+		}
 		if (txtDownloadDir.getText() != null && !txtDownloadDir.getText().isEmpty()) {
 			preferences.add(new BrowserPreference(PreferenceNames.DOWNLOAD_DIR, txtDownloadDir.getText()));
 		}
