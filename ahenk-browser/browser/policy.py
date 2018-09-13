@@ -134,9 +134,9 @@ class Browser(AbstractPlugin):
             self.logger.error('User preferences path not found')
 
     def find_firefox_installation_path(self):
-        installation_path = '/usr/lib/firefox/'
+        installation_path = '/usr/lib/firefox-esr/'
         if not self.is_exist(installation_path):
-            installation_path = '/opt/firefox/'
+            installation_path = '/opt/firefox-esr/'
         if not self.is_exist(installation_path):
             installation_path = '/usr/lib/iceweasel/'
         if not self.is_exist(installation_path):
