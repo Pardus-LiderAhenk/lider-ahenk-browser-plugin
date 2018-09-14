@@ -36,7 +36,6 @@ import org.slf4j.LoggerFactory;
 import tr.org.liderahenk.browser.constants.BrowserConstants;
 import tr.org.liderahenk.browser.i18n.Messages;
 import tr.org.liderahenk.browser.model.BrowserPreference;
-import tr.org.liderahenk.browser.tabs.BlockSiteSettingsTab;
 import tr.org.liderahenk.browser.tabs.GeneralSettingsTab;
 import tr.org.liderahenk.browser.tabs.PrivacySettingsTab;
 import tr.org.liderahenk.browser.tabs.ProxySettingsTab;
@@ -58,14 +57,16 @@ public class BrowserProfileDialog implements IProfileDialog {
 	private GeneralSettingsTab generalSettings;
 	private ProxySettingsTab proxySettings;
 	private PrivacySettingsTab privacySettings;
-	private BlockSiteSettingsTab blockSiteSettingsTab;
+	
+	// Adding blacklist and whitelist is not possible with newer version of Blocksite extension 
+	//private BlockSiteSettingsTab blockSiteSettingsTab;
 
 	@Override
 	public void init() {
 		this.generalSettings = new GeneralSettingsTab();
 		this.proxySettings = new ProxySettingsTab();
 		this.privacySettings = new PrivacySettingsTab();
-		this.blockSiteSettingsTab = new BlockSiteSettingsTab();
+		//this.blockSiteSettingsTab = new BlockSiteSettingsTab();
 	}
 
 	@Override
@@ -85,7 +86,6 @@ public class BrowserProfileDialog implements IProfileDialog {
 			privacySettings.createInputs(createInputTab(tabFolder, Messages.getString("PRIVACY_SETTINGS")), profile);
 
 			// Block Site Tab
-			// Adding blacklist and whitelist is not possible with newer version of Blocksite extension 
 			// blockSiteSettingsTab.createInputs(createInputTab(tabFolder, Messages.getString("BLOCK_SITE_SETTINGS")),
 			//		profile);
 
@@ -318,12 +318,12 @@ public class BrowserProfileDialog implements IProfileDialog {
 		LinkedHashSet<BrowserPreference> set = new LinkedHashSet<BrowserPreference>();
 
 		// Block site settings
-		Set<BrowserPreference> temp = blockSiteSettingsTab.getValues();
-		if (temp != null) {
-			set.addAll(temp);
-		}
+		//Set<BrowserPreference> temp = blockSiteSettingsTab.getValues();
+		//if (temp != null) {
+		//	set.addAll(temp);
+		//}
 		// General settings
-		temp = generalSettings.getValues();
+		Set<BrowserPreference> temp = generalSettings.getValues();
 		if (temp != null) {
 			set.addAll(temp);
 		}
@@ -351,7 +351,7 @@ public class BrowserProfileDialog implements IProfileDialog {
 		generalSettings.validateBeforeSave();
 		proxySettings.validateBeforeSave();
 		privacySettings.validateBeforeSave();
-		blockSiteSettingsTab.validateBeforeSave();
+		//blockSiteSettingsTab.validateBeforeSave();
 	}
 
 	public BrowserProfileDialog getSelf() {
