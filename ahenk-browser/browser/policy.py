@@ -87,12 +87,17 @@ class Browser(AbstractPlugin):
 
         mozilla_cfg = open(str(firefox_installation_path) + self.mozilla_config_file, 'w')
         self.logger.debug('Mozilla configuration file is created')
+        #mozilla.cfg file must start with command
+        is_command_line_added = False
         for pref in preferences:
             if pref['value'].isdigit() or str(pref['value']) == 'false' or str(pref['value']) == 'true':
                 value = pref['value']
             else:
                 value = '\"' + pref['value'] + '\"'
             line = 'lockPref("' + str(pref['preferenceName']) + '",' + value + ');\n'
+            if not is_command_line_added:
+                mozilla_cfg.write("//mozilla.cfg must start with command.\n")
+                is_command_line_added = True
             mozilla_cfg.write(line)
         mozilla_cfg.close()
         self.logger.debug('Preferences were wrote to Mozilla configuration file')
