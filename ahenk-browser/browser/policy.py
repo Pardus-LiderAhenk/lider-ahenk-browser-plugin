@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # Author: Volkan Şahin <volkansah.in> <bm.volkansahin@gmail.com>
+# Author: Tuncay Çolak <tuncay.colak@tubitak.gov.tr> <tncyclk05@gmail.com>
 
 import json
-
 from base.plugin.abstract_plugin import AbstractPlugin
-
 
 class Browser(AbstractPlugin):
     """docstring for Browser"""
@@ -68,49 +67,56 @@ class Browser(AbstractPlugin):
 
         except Exception as e:
             self.logger.error('A problem occurred while writing user profile: {0}'.format(str(e)))
-            # Remove global lock files to tell Firefox to load the user file
-        installation_path = self.find_firefox_installation_path()
-        if installation_path is None:
-            self.logger.error('Firefox installation directory could not be found! Finishing task...')
-            return
-        self.silent_remove(str(installation_path) + self.mozilla_config_file)
-        self.silent_remove(str(installation_path) + self.local_settings_JS_path + self.local_settings_JS_file)
-        self.logger.debug('User profiles have been set successfully')
+            # Remove global lock files to tell Firefox to load the user
+
+        installation_path_list = self.find_firefox_installation_path()
+        for installation_path in installation_path_list:
+            if installation_path is None:
+                self.logger.error('Firefox installation directory could not be found! Finishing task...')
+                return
+            self.silent_remove(str(installation_path) + self.mozilla_config_file)
+            self.silent_remove(str(installation_path) + self.local_settings_JS_path + self.local_settings_JS_file)
+            self.logger.debug('User profiles have been set successfully')
 
     def write_to_global_profile(self):
-        firefox_installation_path = self.find_firefox_installation_path()
-        preferences = None
-        try:
-            preferences = json.loads(str(self.data))['preferences']
-        except Exception as e:
-            self.logger.error('Problem occurred while getting preferences. Error Message: {}'.format(str(e)))
 
-        mozilla_cfg = open(str(firefox_installation_path) + self.mozilla_config_file, 'w')
-        self.logger.debug('Mozilla configuration file is created')
-        #mozilla.cfg file must start with command
-        is_command_line_added = False
-        for pref in preferences:
-            if pref['value'].isdigit() or str(pref['value']) == 'false' or str(pref['value']) == 'true':
-                value = pref['value']
-            else:
-                value = '\"' + pref['value'] + '\"'
-            line = 'lockPref("' + str(pref['preferenceName']) + '",' + value + ');\n'
-            if not is_command_line_added:
-                mozilla_cfg.write("//mozilla.cfg must start with command.\n")
-                is_command_line_added = True
-            mozilla_cfg.write(line)
-        mozilla_cfg.close()
-        self.logger.debug('Preferences were wrote to Mozilla configuration file')
+        firefox_installation_path_list = self.find_firefox_installation_path()
 
-        local_settings_path = str(firefox_installation_path) + self.local_settings_JS_path
-        if not self.is_exist(local_settings_path):
-            self.logger.debug('Firefox local setting path not found, it will be created')
-            self.create_directory(local_settings_path)
-        local_settings_js = open(local_settings_path + self.local_settings_JS_file, 'w')
-        local_settings_js.write(
-                'pref("general.config.obscure_value", 0);\npref("general.config.filename", "mozilla.cfg");\n')
-        local_settings_js.close()
-        self.logger.debug('Firefox local settings were configured')
+        if firefox_installation_path_list is not None:
+            for firefox_installation_path in firefox_installation_path_list:
+                preferences = None
+                try:
+                    preferences = json.loads(str(self.data))['preferences']
+                except Exception as e:
+                    self.logger.error('Problem occurred while getting preferences. Error Message: {}'.format(str(e)))
+
+                mozilla_cfg = open(str(firefox_installation_path) + self.mozilla_config_file, 'w')
+                self.logger.debug('Mozilla configuration file is created for {0}'.format(firefox_installation_path))
+                # mozilla.cfg file must start with command
+                is_command_line_added = False
+                for pref in preferences:
+                    if pref['value'].isdigit() or str(pref['value']) == 'false' or str(pref['value']) == 'true':
+                        value = pref['value']
+                    else:
+                        value = '\"' + pref['value'] + '\"'
+                    line = 'lockPref("' + str(pref['preferenceName']) + '",' + value + ');\n'
+                    if not is_command_line_added:
+                        mozilla_cfg.write("//mozilla.cfg must start with command.\n")
+                        is_command_line_added = True
+                    mozilla_cfg.write(line)
+                mozilla_cfg.close()
+                self.logger.debug('Preferences were wrote to Mozilla configuration file for {0}'.format(firefox_installation_path))
+
+                local_settings_path = str(firefox_installation_path) + self.local_settings_JS_path
+                if not self.is_exist(local_settings_path):
+                    self.logger.debug('Firefox local setting path not found, it will be created')
+                    self.create_directory(local_settings_path)
+                local_settings_js = open(local_settings_path + self.local_settings_JS_file, 'w')
+                local_settings_js.write(
+                    'pref("general.config.obscure_value", 0);\npref("general.config.filename", "mozilla.cfg");\n')
+                local_settings_js.close()
+                self.logger.debug('Firefox local settings were configured {}'.format(firefox_installation_path))
+
 
     def silent_remove(self, filename):
         try:
@@ -139,16 +145,27 @@ class Browser(AbstractPlugin):
             self.logger.error('User preferences path not found')
 
     def find_firefox_installation_path(self):
-        installation_path = '/usr/lib/firefox-esr/'
-        if not self.is_exist(installation_path):
-            installation_path = '/opt/firefox-esr/'
-        if not self.is_exist(installation_path):
-            installation_path = '/usr/lib/iceweasel/'
-        if not self.is_exist(installation_path):
+
+        installation_path_list = []
+        if self.is_exist("/usr/lib/firefox-esr/"):
+            installation_path_list.append("/usr/lib/firefox-esr/")
+
+        if self.is_exist('/opt/firefox-esr/'):
+            installation_path_list.append('/opt/firefox-esr/')
+
+        if self.is_exist('/usr/lib/iceweasel/'):
+            installation_path_list.append('/usr/lib/iceweasel/')
+
+        if self.is_exist('/opt/firefox/'):
+            installation_path_list.append('/opt/firefox/')
+
+        if installation_path_list:
+            self.logger.info("Firefox installation paths list: "+str(installation_path_list))
+            return installation_path_list
+
+        else:
             self.logger.error('Firefox installation path not found')
             return None
-        self.logger.debug('Firefox installation path found successfully')
-        return installation_path
 
 
 def handle_policy(profile_data, context):
